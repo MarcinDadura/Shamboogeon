@@ -16,7 +16,7 @@ Shortcuts:
 
 file_name = sys.argv[1]
 
-background = (0, 0, 16)
+background = (0, 0, 0)
 
 tile_size = 32
 
@@ -34,11 +34,10 @@ window = pygame.display.set_mode((800, 600))
 objects = {
     '#': pygame.transform.scale(pygame.image.load('img/wall.png'), (tile_size, tile_size)),
     '$': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
-    '%': pygame.transform.scale(pygame.image.load('img/skull_right.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]
-arrow = pygame.transform.scale(pygame.image.load('arrow.png'), (tile_size, tile_size))
+arrow = pygame.transform.scale(pygame.image.load('img/arrow.png'), (tile_size, tile_size))
 
 def get_grid_pos(click_pos):
     x = (click_pos[0]-20) // tile_size
