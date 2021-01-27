@@ -9,12 +9,22 @@ pygame.init()
 width = 800
 height = 600
 
+try:
+    file_name = sys.argv[1]
+except IndexError:
+    print('''
+Usage:
+    python3 lvl_editor.py FILE_NAME
+
+Example:
+    python3 lvl_editor.py room1.txt
+    ''')
+    exit(0)
+
 print('''
 Shortcuts:
     s - save
 ''')
-
-file_name = sys.argv[1]
 
 background = (0, 0, 0)
 
