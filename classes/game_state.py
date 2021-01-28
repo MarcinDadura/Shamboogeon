@@ -27,3 +27,8 @@ class GameState:
 
     def get_board_scale(self) -> int:
         return self.board_scale
+
+    def reset(self):
+        """Reset all values"""
+        self.current_lvl = 0
+        self.board_scale = 1
