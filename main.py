@@ -1,4 +1,5 @@
 import pygame
+from classes.game_state import GameState
 
 # Initialize pygame
 pygame.init()
@@ -8,6 +9,8 @@ screen = pygame.display.set_mode((800, 600))
 
 # Title
 pygame.display.set_caption("Shamboo")
+
+game_state = GameState.get_instance()
 
 # Game loop
 running = True
