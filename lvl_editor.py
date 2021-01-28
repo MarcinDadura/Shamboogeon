@@ -3,6 +3,7 @@ import sys
 from pygame.locals import *
 
 # Bajzel straszny ale działa :)
+# Mess scary but cannons :)
 
 pygame.init()
 
@@ -21,16 +22,17 @@ Example:
     ''')
     exit(0)
 
-print('''
-Shortcuts:
-    s - save
-''')
+print('Shortcuts:\n\ts - save')
 
 background = (0, 0, 0)
 
+# Pixel size of one block
 tile_size = 32
 
+# Create empty map
 game_map = [['0' for _ in range(10)] for _ in range(10)]
+
+# Try to load level from file
 try:
     with open(file_name, 'r') as filee:
         game_map = []
@@ -41,6 +43,7 @@ except FileNotFoundError:
 
 window = pygame.display.set_mode((800, 600))
 
+# All available objects
 objects = {
     '#': pygame.transform.scale(pygame.image.load('img/wall.png'), (tile_size, tile_size)),
     '$': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
@@ -102,20 +105,6 @@ while running:
             elif event.key == K_s:
                 save_to_file()
 
-        if event.type == MOUSEBUTTONDOWN:
-            buttons = pygame.mouse.get_pressed()
-            click_pos = pygame.mouse.get_pos()
-            if click_pos[0] >= (width - tile_size):
-                palete_i = click_pos[1] // tile_size
-            else:
-                grid_pos = get_grid_pos(click_pos)
-                try:
-                    if buttons[0]:
-                        game_map[grid_pos[1]][grid_pos[0]] = palete[palete_i]
-                    elif buttons[2]:
-                        game_map[grid_pos[1]][grid_pos[0]] = '0'
-                except IndexError:
-                    pass
     buttons = pygame.mouse.get_pressed()
     if buttons[0]:
         click_pos = pygame.mouse.get_pos()
