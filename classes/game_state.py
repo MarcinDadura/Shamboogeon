@@ -6,6 +6,7 @@ class GameState:
 
     def __init__(self):
         self.current_lvl = 0
+        self.board_scale = 1
         GameState._instance = self
 
     @classmethod
@@ -20,3 +21,9 @@ class GameState:
 
     def set_current_lvl(self, lvl: int):
         self.current_lvl = lvl
+
+    def set_board_scale(self, scale: int):
+        self.board_scale = scale
+
+    def get_board_scale(self) -> int:
+        return self.board_scale
