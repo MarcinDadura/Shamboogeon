@@ -7,6 +7,7 @@ class GameState:
     def __init__(self):
         self.current_lvl = 0
         self.board_scale = 1
+        self.exit = False
         GameState._instance = self
 
     @classmethod
