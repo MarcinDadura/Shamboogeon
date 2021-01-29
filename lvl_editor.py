@@ -30,7 +30,7 @@ background = (0, 0, 0)
 tile_size = 32
 
 # Create empty map
-game_map = [['0' for _ in range(10)] for _ in range(10)]
+game_map = [['0' for _ in range(16)] for _ in range(16)]
 
 # Try to load level from file
 try:
