@@ -1,4 +1,6 @@
 from classes.wall import Wall
+from classes.teleport import Teleport
+
 
 class RoomManager:
     _instance = None
@@ -19,8 +21,13 @@ class RoomManager:
 
     def set_lvl(self, lvl: int):
         self.lvl = lvl
+        self._x = 10
+        self._y = 10
         # Clear rooms
         self.rooms = [ [None for _ in range(21)] for _ in range(21) ]
+
+    def get_lvl(self):
+        return self.lvl
 
     def load_room(self, x: int, y: int):
         self.rooms[y][x] = []
@@ -57,6 +64,6 @@ class RoomManager:
                     ) 
                 elif tile == '$':
                     objects.append(
-                        Wall(x*16, y*16)
+                        Teleport(x*16, y*16)
                     ) 
         return objects

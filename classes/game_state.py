@@ -8,6 +8,7 @@ class GameState:
         self.current_lvl = 0
         self.board_scale = 1
         self.exit = False
+        self.next_lvl = False
         GameState._instance = self
 
     @classmethod
