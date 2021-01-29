@@ -11,4 +11,4 @@ class Wall(GameObject):
         # Load sprite only once
         if Wall.wall_sprite is None:
             Wall.wall_sprite = pygame.image.load('img/wall.png').convert_alpha()
-        super().__init__(x, y, Wall.wall_sprite)
+        super().__init__(x, y, 16, 16, Wall.wall_sprite)

@@ -25,27 +25,112 @@ def game(screen):
 
     room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
+    board = pygame.Surface((640, 640))
+    player = Player.get_instance()
+    player.set_x(128)
+    player.set_y(128)
 
-    objects_list = room_manager.get_objects()
-    room(screen, objects_list)
+    while(not game_state.exit):
+        objects_list = room_manager.get_objects()
+        old_room_obj = room(screen, board, objects_list)
+        player = Player.get_instance()
+        if player.get_y() < 0:
+            room_manager.move_up()
+        elif player.get_y() + player._height > 16 * 16:
+            room_manager.move_down()
+        elif player.get_x() < 0:
+            room_manager.move_left()
+        elif player.get_x() + player._width > 16 * 16:
+            room_manager.move_right()
+        if old_room_obj is not None:
+            play_room_animation(old_room_obj, room_manager.get_objects(), board)
+        GameObject.clear_objects_list()
+
+def play_room_animation(old_objects, new_objects, board):
+    speed = 150
+    player = Player.get_instance()
+    horizontal = True
+    direction = -1
+    if player.get_x() < 0:
+        horizontal = True
+        direction = 1
+    elif player.get_y() < 0:
+        horizontal = False
+        direction = 1
+    elif player.get_y() + player._height > 16 * 16:
+        horizontal = False
+        direction = -1
 
 
-def room(screen, objects_list: list):
-    """Game loop"""
+    if horizontal:
+        for x in new_objects:
+            x.set_x(x.get_x() - 16 * 16 * direction)
+    if not horizontal:
+        for x in new_objects:
+            x.set_y(x.get_y() - 16 * 16 * direction)
+
+
+    objects_list = new_objects
+    new_objects = pygame.sprite.Group()
+    for o in objects_list:
+        new_objects.add(o)
+
+    player_group = pygame.sprite.Group()
+    player_group.add(player)
+
+    clock = pygame.time.Clock()
+    game_state = GameState.get_instance()
+    board = calculate_scale(screen.get_size(), board, True)
+    move = 0
+    while(True):
+        time_delta = clock.tick(120)
+        move += speed * (time_delta/1000) * game_state.get_board_scale()
+        screen.fill((0, 0, 34))
+        board.fill((0, 0, 0))
+        new_objects.draw(board)
+        old_objects.draw(board)
+        player_group.draw(board)
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        pygame.display.flip()
+        if horizontal:
+            for x in old_objects:
+                x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+            for x in new_objects:
+                x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+            player.set_x(player.get_x() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
+        else:
+            for x in old_objects:
+                x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+            for x in new_objects:
+                x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+            player.set_y(player.get_y() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
+
+        if move >= 16 * 16:
+            if horizontal:
+                player.set_x(player.get_x() - direction)
+            else:
+                player.set_y(player.get_y() - direction)
+            return
+        
+
+
+def room(screen, board, objects_list: list) -> pygame.sprite.Group:
+    """
+    Game loop
+    Return objects to play animation 
+    """
     objects = pygame.sprite.Group()
     for o in objects_list:
         objects.add(o)
-    board = pygame.Surface((640, 640))
     clock = pygame.time.Clock()
+    game_state = GameState.get_instance()
 
     player = Player.get_instance()
-    player.set_x(32)
-    player.set_y(32)
     player_group = pygame.sprite.Group()
     player_group.add(player)
 
     # Make sure if scale of the board is correct
-    board = calculate_scale(screen.get_size(), board)
+    board = calculate_scale(screen.get_size(), board, True)
 
     running = True
     while running:
@@ -54,6 +139,7 @@ def room(screen, objects_list: list):
         screen.fill((0, 0, 34))
         board.fill((0, 0, 0))
         objects.update(time_delta)
+        player.update(time_delta, objects)
         objects.draw(board)
         player_group.draw(board)
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
@@ -61,9 +147,11 @@ def room(screen, objects_list: list):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+                game_state.exit = True
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+                    game_state.exit = True
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.size
                 if width < 300:
@@ -73,8 +161,10 @@ def room(screen, objects_list: list):
                     height = 300
                     pygame.display.set_mode((width, height), pygame.RESIZABLE)
                 board = calculate_scale(event.size, board)
+        if player.check_if_hit_border():
+            return objects
 
-def calculate_scale(size, board):
+def calculate_scale(size, board, force=False):
     game_state = GameState.get_instance()
     h_tiles = size[0] // 16
     v_tiles = size[1] // 16
@@ -85,7 +175,7 @@ def calculate_scale(size, board):
     if h_tiles < v_tiles:
         v_tiles = h_tiles
 
-    if game_state.get_board_scale() != v_tiles:
+    if game_state.get_board_scale() != v_tiles or force:
         game_state.set_board_scale(v_tiles)
         GameObject.rescale()
         board = pygame.transform.scale(board, (v_tiles * 16 * 16, v_tiles * 16 * 16))
