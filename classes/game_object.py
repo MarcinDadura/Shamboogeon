@@ -32,11 +32,11 @@ class GameObject(Sprite):
         for obj in cls.all_objects:
             obj.set_x(obj.get_x())
             obj.set_y(obj.get_y())
-            obj.image = pygame.transform.scale(obj.image, (16, 16))
+            obj.image = pygame.transform.scale(obj.image, (obj._width, obj._height))
             obj.image = pygame.transform.scale(obj.image,
                 (
-                    16 * GameState.get_instance().get_board_scale(),
-                    16 * GameState.get_instance().get_board_scale(),
+                    obj._width * GameState.get_instance().get_board_scale(),
+                    obj._height * GameState.get_instance().get_board_scale(),
                 )
             )
 

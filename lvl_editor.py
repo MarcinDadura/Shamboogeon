@@ -71,6 +71,9 @@ running = True
 
 pygame.display.set_caption(file_name)
 
+def go_to(x, y):
+    pass
+
 while running:
     window.fill(background)
     for y, row in enumerate(game_map):
