@@ -42,6 +42,10 @@ class GameObject(Sprite):
             )
 
     @classmethod
+    def remove_object(cls, obj):
+        cls.all_objects.remove(obj)
+
+    @classmethod
     def clear_objects_list(cls):
         old = cls.all_objects
         cls.all_objects = pygame.sprite.Group()
