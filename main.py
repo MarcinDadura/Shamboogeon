@@ -252,10 +252,12 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             if event.type == pygame.QUIT:
                 running = False
                 game_state.exit = True
+                exit(0)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
                     game_state.exit = True
+                    exit(0)
 
                 arrow = None
                 if event.key == pygame.K_UP:
