@@ -104,6 +104,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
 
     player_group = pygame.sprite.Group()
     player_group.add(player)
+    inventory.rescale()
     inventory_bar.add(inventory)
 
     clock = pygame.time.Clock()
@@ -114,6 +115,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
     while True:
 
         for o in inventory.get_items():
+            o.rescale()
             inventory_g.add(o)
 
         inventory_board.fill((0, 0, 0))
@@ -189,6 +191,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
     inventory_g = pygame.sprite.Group()
     inventory_bar = pygame.sprite.Group()
+    inventory.rescale()
     inventory_bar.add(inventory)
 
     # Make sure if scale of the board is correct
@@ -198,7 +201,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     while running:
 
         for o in inventory.get_items():
-            # print(o)
+            o.rescale()
             inventory_g.add(o)
 
         time_delta = clock.tick(120)
