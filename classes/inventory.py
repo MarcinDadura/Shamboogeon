@@ -78,9 +78,9 @@ class Inventory(GameObject):
     def itemsSize(self):
         count = 0
         for o in self.items:
-            x = 0 if count % 2 == 0 else 16
+            x = 0 if count % 2 == 0 else 20
             y = 16
-            y = y + 16 if count != 0 and self.count % 2 == 0 else y
+            y = y + 16 if count != 0 and count % 2 == 0 else y
             o.set_x(x)
             o.set_y(y)
             count = count + 1
@@ -89,5 +89,17 @@ class Inventory(GameObject):
         for o in self.items:
             if o.title == "key_unit":
                 return True
+
+        return False
+
+    def get_arrow(self):
+        arrow = None
+        for x in self.items:
+            if x.title == 'arrow':
+                arrow = x
+
+        if arrow is not None:
+            self.remove_item(arrow)
+            return True
 
         return False

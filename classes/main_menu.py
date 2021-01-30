@@ -33,7 +33,9 @@ class Menu:
         self.screen= arg_screen
         self.sound= pygame.mixer.Sound(sound_path)
         self.sound.play(-1)
-        self.sound.set_volume(0.2)
+        self.sound.set_volume(0.1)
+        self.response(800,600)
+
 
     def add_button(self,name ,  action):
         self.menu.add_button(name, action, self.screen)
@@ -42,11 +44,10 @@ class Menu:
         self.menu = pygame_menu.Menu(height, width, 'Shamboogeon',
                                      theme=self.my_theme())
 
-        """ 
         engine = sound.Sound()
-        engine.set_sound(sound.SOUND_TYPE_OPEN_MENU, 'img/drzwi_loch.ogg')
+        engine.set_sound(sound.SOUND_TYPE_KEY_ADDITION, 'sounds/UI-select.ogg')
         self.menu.set_sound(engine, recursive=True)
-        """
+
 
 
 
