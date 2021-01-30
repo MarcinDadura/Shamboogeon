@@ -11,7 +11,6 @@ class Menu:
     my_image = None
     sound = None
 
-
     def my_theme(self):
         font = pygame_menu.font.FONT_8BIT
         styl = pygame_menu.widgets.MENUBAR_STYLE_NONE
@@ -34,6 +33,7 @@ class Menu:
         self.screen= arg_screen
         self.sound= pygame.mixer.Sound(sound_path)
         self.sound.play(-1)
+        self.sound.set_volume(0.2)
 
     def add_button(self,name ,  action):
         self.menu.add_button(name, action, self.screen)
