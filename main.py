@@ -27,15 +27,6 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
-    inventory = Inventory.get_instance()
-    item = Item('mur', 'ładniutki mur', pygame.image.load('img/skull.png').convert_alpha(), 4, 20, 16, 16)
-    item2 = Item('mur', 'ładniutki mur', pygame.image.load('img/skull.png').convert_alpha(), 24, 20, 16, 16)
-    item1 = Item('mur', 'ładniutki mur', pygame.image.load('img/arrow.png').convert_alpha(), 4, 44, 16, 16)
-    item3 = Item('mur', 'ładniutki mur', pygame.image.load('img/teleport.png').convert_alpha(), 24, 44, 16, 16)
-    inventory.add_item(item)
-    inventory.add_item(item1)
-    inventory.add_item(item2)
-    inventory.add_item(item3)
 
     game_state = GameState.get_instance()
     game_state.reset()
@@ -43,7 +34,6 @@ def game(screen):
     room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
     board = pygame.Surface((640, 640))
-    inventory_board = pygame.Surface(inventory.get_size())
 
     player = Player.get_instance()
     player.set_x(128)
@@ -51,7 +41,7 @@ def game(screen):
 
     while(not game_state.exit):
         objects_list = room_manager.get_objects()
-        old_room_obj = room(screen, board, objects_list, inventory_board, inventory)
+        old_room_obj = room(screen, board, objects_list)
         player = Player.get_instance()
         if player.get_y() < 0:
             room_manager.move_up()
@@ -135,7 +125,7 @@ def play_room_animation(old_objects, new_objects, board):
             return
 
 
-def room(screen, board, objects_list: list, inventory_board, inventory: Inventory) -> pygame.sprite.Group:
+def room(screen, board, objects_list: list) -> pygame.sprite.Group:
     """
     Game loop
     Return objects to play animation 
@@ -143,9 +133,7 @@ def room(screen, board, objects_list: list, inventory_board, inventory: Inventor
 
     objects = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
-    inventory_g = pygame.sprite.Group()
-    inventory_bar = pygame.sprite.Group()
-    inventory_bar.add(inventory)
+
 
     for o in objects_list:
         if not isinstance(o, Teleport):
@@ -153,8 +141,6 @@ def room(screen, board, objects_list: list, inventory_board, inventory: Inventor
         else:
             teleports.add(o)
 
-    for o in inventory.get_items():
-        inventory_g.add(o)
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
@@ -168,6 +154,18 @@ def room(screen, board, objects_list: list, inventory_board, inventory: Inventor
 
     running = True
     while running:
+
+        inventory = Inventory.get_instance()
+        inventory_board = pygame.Surface(inventory.get_size())
+
+        inventory_g = pygame.sprite.Group()
+        inventory_bar = pygame.sprite.Group()
+        inventory_bar.add(inventory)
+
+        for o in inventory.get_items():
+            # print(o)
+            inventory_g.add(o)
+
         time_delta = clock.tick(120)
         # RGB from 0 to 255
         screen.fill((0, 0, 0))

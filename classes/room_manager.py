@@ -2,6 +2,7 @@ from classes.wall import Wall
 from classes.teleport import Teleport
 from classes.door import Door
 from classes.rock import Rock
+from classes.key import Key
 
 
 class RoomManager:
@@ -79,5 +80,13 @@ class RoomManager:
                 elif tile == 'r':
                     objects.append(
                         Rock(x*16, y*16)
+                    ) 
+                elif tile == 'k':
+                    objects.append(
+                        Key(x*16, y*16, 1)
+                    ) 
+                elif tile == 'l':
+                    objects.append(
+                        Key(x*16, y*16, 2)
                     ) 
         return objects
