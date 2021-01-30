@@ -21,18 +21,29 @@ class Arrow(GameObject):
                 pygame.image.load('img/strzala_dol.png').convert_alpha(),
             ]
         if horizontal_direction > 0:
-            super().__init__(x, y, 16, 16, Arrow.sprites[0], 'arrow')
+            super().__init__(x, y, 8, 8, Arrow.sprites[0], 'arrow')
         elif horizontal_direction < 0:
-            super().__init__(x, y, 16, 16, Arrow.sprites[2], 'arrow')
+            super().__init__(x, y, 8, 8, Arrow.sprites[2], 'arrow')
         elif vertical_direction < 0:
-            super().__init__(x, y, 16, 16, Arrow.sprites[1], 'arrow')
+            super().__init__(x, y, 8, 8, Arrow.sprites[1], 'arrow')
         else:
-            super().__init__(x, y, 16, 16, Arrow.sprites[3], 'arrow')
+            super().__init__(x, y, 8, 8, Arrow.sprites[3], 'arrow')
         self.set_sprite(self.image)
 
     def update(self, time_delta, objects=None):
         self.set_x(self._x + self.speed * (time_delta/1000) * -self.horizontal_direction)
         self.set_y(self._y + self.speed * (time_delta/1000) * self.vertical_direction)
+        if objects:
+            for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+                if obj.type == 'ghost':
+                    if self.horizontal_direction != 0 or self.vertical_direction != 0:
+                        obj.sound.play()
+                        obj.kill()
+                        self.horizontal_direction = 0
+                        self.vertical_direction = 0
+                elif obj.type == 'wall':
+                    self.horizontal_direction = 0
+                    self.vertical_direction = 0
 
     @classmethod
     def shoot_arrow(self, horizontal, vertical):
