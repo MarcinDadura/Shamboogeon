@@ -7,7 +7,7 @@ from classes.ghost import Ghost
 from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
-
+from classes.inventory import Inventory
 
 
 class RoomManager:
@@ -87,9 +87,11 @@ class RoomManager:
                         Rock(x*16 + 1, y*16 + 1)
                     ) 
                 elif tile == 'k':
-                    objects.append(
-                        Key(x*16, y*16, 1)
-                    ) 
+                    inventory = Inventory.get_instance()
+                    if not inventory.checkKey():
+                        objects.append(
+                            Key(x*16, y*16, 1)
+                        )
                 elif tile == 'l':
                     objects.append(
                         Key(x*16, y*16, 2)
@@ -108,6 +110,6 @@ class RoomManager:
                     )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 5,'sounds/ghost_damage.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 5,'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
                     )
         return objects
