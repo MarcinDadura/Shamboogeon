@@ -8,6 +8,7 @@ from classes.teleport import Teleport
 from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
+from classes.arrow import Arrow
 
 # Initialize pygame
 pygame.init()
@@ -32,18 +33,29 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
-    game_menu.sound.stop()
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
     inventory_board = pygame.Surface(inventory.get_size())
 
+    item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+    item2 = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+    Inventory.get_instance().add_item(item)
+    Inventory.get_instance().add_item(item2)
+
     game_state.reset()
 
     room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
-    board = pygame.Surface((640, 640))
 
+    """Sound"""
+
+    game_menu.sound.stop()
+    if (room_manager.get_lvl() == 1):
+        game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
+        game_sound.play(-1)
+        game_sound.set_volume(0.1)
+    board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
     player.set_y(128)
@@ -104,16 +116,19 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
 
     player_group = pygame.sprite.Group()
     player_group.add(player)
+    inventory.rescale()
     inventory_bar.add(inventory)
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
-    board = calculate_scale(screen.get_size(), board, True)
+    floor = pygame.image.load('img/dungeon_floor.png')
+    board, floor = calculate_scale(screen.get_size(), board, floor, force=True)
     move = 0
 
     while True:
 
         for o in inventory.get_items():
+            o.rescale()
             inventory_g.add(o)
 
         inventory_board.fill((0, 0, 0))
@@ -125,6 +140,13 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
         screen.fill((0, 0, 0))
 
         board.fill((0, 255, 0))
+        if floor:
+            if horizontal:
+                board.blit(floor, (move*2 * direction, 0))
+                board.blit(floor, (move*2 * direction - (direction * 256 * GameState.get_instance().get_board_scale()), 0))
+            else:
+                board.blit(floor, (0, -move*2 * -direction))
+                board.blit(floor, (0, -move*2 * -direction - (direction * 256 * GameState.get_instance().get_board_scale())))
         new_objects.draw(board)
         old_objects.draw(board)
         player_group.draw(board)
@@ -166,7 +188,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     objects = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
-
+    floor = pygame.image.load('img/dungeon_floor.png')
 
     for o in objects_list:
         if not isinstance(o, Teleport):
@@ -174,7 +196,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         elif not o.cary:
             teleports.add(o)
         elif o.cary:
-            print(o.cary)
+            pass
 
     for obj in objects:
         if obj.type in ('ghost', 'rock'):
@@ -189,32 +211,40 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
     inventory_g = pygame.sprite.Group()
     inventory_bar = pygame.sprite.Group()
+    inventory.rescale()
     inventory_bar.add(inventory)
 
     # Make sure if scale of the board is correct
-    board = calculate_scale(screen.get_size(), board, True)
+    board, floor = calculate_scale(screen.get_size(), board, floor, force=True)
 
     running = True
     while running:
 
+        inventory_g = pygame.sprite.Group()
         for o in inventory.get_items():
-            # print(o)
+            o.rescale()
             inventory_g.add(o)
 
         time_delta = clock.tick(120)
         # RGB from 0 to 255
         screen.fill((0, 0, 0))
+        inventory_board.fill((0, 0, 0))
 
         board.fill((0, 255, 0))
+        if floor:
+            board.blit(floor, (0, 0))
         objects.update(time_delta)
         teleports.update(time_delta)
-        player.update(time_delta, objects)
+        player.update(time_delta, objects, enemies)
         enemies.update(time_delta, objects)
         objects.draw(board)
+        enemies.draw(board)
         teleports.draw(board)
         player_group.draw(board)
+
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
+
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
         pygame.display.flip()
@@ -226,6 +256,19 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                 if event.key == pygame.K_ESCAPE:
                     running = False
                     game_state.exit = True
+
+                arrow = None
+                if event.key == pygame.K_UP:
+                    arrow = Arrow.shoot_arrow(0, -1)
+                elif event.key == pygame.K_DOWN:
+                    arrow = Arrow.shoot_arrow(0, 1)
+                elif event.key == pygame.K_LEFT:
+                    arrow = Arrow.shoot_arrow(-1, 0)
+                elif event.key == pygame.K_RIGHT:
+                    arrow = Arrow.shoot_arrow(1, 0)
+
+                if arrow is not None:
+                    enemies.add(arrow)
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.size
                 if width < 300:
@@ -234,7 +277,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                 if height < 300:
                     height = 300
                     pygame.display.set_mode((width, height), pygame.RESIZABLE)
-                board = calculate_scale(event.size, board)
+                board, floor = calculate_scale(event.size, board, floor)
         if player.check_if_hit_border():
             for t in teleports:
                 objects.add(t)
@@ -242,9 +285,9 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         if pygame.sprite.spritecollideany(player, teleports):
             game_state.next_lvl = True
             running = False
-        
 
-def calculate_scale(size, board, force=False):
+
+def calculate_scale(size, board, floor=None, force=False):
     game_state = GameState.get_instance()
     h_tiles = size[0] // 16
     v_tiles = size[1] // 16
@@ -258,8 +301,10 @@ def calculate_scale(size, board, force=False):
     if game_state.get_board_scale() != v_tiles or force:
         game_state.set_board_scale(v_tiles)
         GameObject.rescale()
+        if floor:
+            floor = pygame.transform.scale(floor, (v_tiles * 16 * 16, v_tiles * 16 * 16))
         board = pygame.transform.scale(board, (v_tiles * 16 * 16, v_tiles * 16 * 16))
-    return board
+    return board, floor
 
 
 """
@@ -275,18 +320,9 @@ check_size = screen.get_size()
 
 
 while main_menu():
-
     game_menu.menu.mainloop(screen, disable_loop=main_menu())
     if(check_size != screen.get_size()):
         game_menu.response(screen.get_width(), screen.get_height())
         game_menu.add_button('Start', game)
         game_menu.add_button("Quit", pygame_menu.events.EXIT)
         check_size = screen.get_size()
-
-
-
-
-
-
-
-

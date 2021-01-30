@@ -19,6 +19,12 @@ class Rock(GameObject):
 
     def push(self, horizontal: float, vertiacal: float, objects):
         """Return True on success"""
+        if self.sound is not None:
+            try:
+                self.sound.stop()
+            except:
+                pass
+
         self.sound = Rock.sound.play()
         old_x = self.get_x()
         old_y = self.get_y()
@@ -67,7 +73,6 @@ class Rock(GameObject):
                     for x in GameObject.all_objects:
                         if x.type == 'trellis':
                             x.kill()
-
 
 
             elif obj.type != 'player' and obj is not self:
