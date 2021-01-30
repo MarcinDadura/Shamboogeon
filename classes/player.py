@@ -111,8 +111,8 @@ class Player(GameObject):
                     self.index = 0
         self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
 
+        inventory = Inventory.get_instance()
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            inventory = Inventory.get_instance()
             if obj.type == 'rock':
                 if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
@@ -141,6 +141,9 @@ class Player(GameObject):
         if enemies is not None:
             for obj in  pygame.sprite.spritecollide(self, enemies, dokill=False):
                 if obj.type == 'arrow':
+                    item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+                    inventory.add_item(item)
+                    obj.cary = True
                     obj.kill()
                     print('pick up')
 

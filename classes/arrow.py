@@ -1,5 +1,6 @@
 from classes.game_object import GameObject
 from classes.player import Player
+from classes.inventory import Inventory
 import pygame
 from classes.monster import Monster
 from classes.ghost import Ghost
@@ -48,6 +49,7 @@ class Arrow(GameObject):
 
     @classmethod
     def shoot_arrow(self, horizontal, vertical):
-        player = Player.get_instance()
-        arrow = Arrow(player.get_x() + (16 * horizontal), player.get_y() + (16 * vertical), -horizontal, vertical)
-        return arrow
+        if Inventory.get_instance().get_arrow():
+            player = Player.get_instance()
+            arrow = Arrow(player.get_x() + (16 * horizontal), player.get_y() + (16 * vertical), -horizontal, vertical)
+            return arrow
