@@ -22,7 +22,7 @@ class Player(GameObject):
             Player.player_sprite_right = [pygame.image.load('img/hero-frame-0_4.png').convert_alpha(),
                                           pygame.image.load('img/hero-frame-0_5.png').convert_alpha(),
                                           pygame.image.load('img/hero-frame-0_6.png').convert_alpha()]
-        super().__init__(x, y, 12, 12, Player.player_sprite_left[0], 'player')
+        super().__init__(x, y, 11, 14, Player.player_sprite_left[0], 'player')
         self.index = 0
         self.direction = 0
 
