@@ -33,7 +33,6 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
-    game_menu.sound.stop()
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -43,8 +42,15 @@ def game(screen):
 
     room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
-    board = pygame.Surface((640, 640))
 
+    """Sound"""
+
+    game_menu.sound.stop()
+    if (room_manager.get_lvl() == 1):
+        game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
+        game_sound.play(-1)
+        game_sound.set_volume(0.1)
+    board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
     player.set_y(128)
