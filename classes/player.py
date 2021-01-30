@@ -1,6 +1,8 @@
 from classes.game_object import GameObject
 import pygame
 from pygame.locals import *
+from classes.item import Item
+from classes.inventory import Inventory
 
 
 class Player(GameObject):
@@ -35,18 +37,19 @@ class Player(GameObject):
         self.set_x(self._x + self.speed * (time_delta/1000) * horizontal_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+            inventory = Inventory.get_instance()
             if obj.type == 'rock':
                 if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
                     self.set_x(old_x)
                     break
             elif obj.type == 'key':
-                # Collect key
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0, 16, 16)
+                inventory.add_item(item)
+                inventory.unitKey()
                 obj.kill()
-                print('collect')
-            elif obj.type == 'door':
-                # Collect key
-                obj.kill()
-                print('open')
+            elif obj.type == 'door' and inventory.checkKey():
+                    obj.kill()
+
             elif obj.type == 'ghost':
                 print('ghost!!!')
             else:
@@ -63,17 +66,20 @@ class Player(GameObject):
         self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+            inventory = Inventory.get_instance()
             if obj.type == 'rock':
                 if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break
             elif obj.type == 'key':
-                # Collect key
-                print('collect')
-            elif obj.type == 'door':
-                # Collect key
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0, 16, 16)
+                inventory.add_item(item)
+                inventory.unitKey()
                 obj.kill()
-                print('open')
+
+            elif obj.type == 'door' and inventory.checkKey():
+                obj.kill()
+
             elif obj.type == 'ghost':
                 obj.sound.play()
                 print('ghost!!!')

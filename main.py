@@ -4,32 +4,37 @@ from classes.room_manager import RoomManager
 from classes.game_object import GameObject
 from classes.player import Player
 from classes.teleport import Teleport
-
+from classes.inventory import Inventory
+from classes.item import Item
 
 # Initialize pygame
 pygame.init()
 
 # Creating the screen
 screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
-#pygame.mixer.music.load('elo.ogg')
-#pygame.mixer.music.play(-1)
+# pygame.mixer.music.load('elo.ogg')
+# pygame.mixer.music.play(-1)
 
 # Title
 pygame.display.set_caption("Shamboo")
+
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
     # TODO
     return True
 
+
 def game(screen):
     """Load levels"""
+
     game_state = GameState.get_instance()
     game_state.reset()
 
     room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
     board = pygame.Surface((640, 640))
+
     player = Player.get_instance()
     player.set_x(128)
     player.set_y(128)
@@ -53,6 +58,7 @@ def game(screen):
             game_state.next_lvl = False
             room_manager.set_lvl(room_manager.get_lvl() + 1)
 
+
 def play_room_animation(old_objects, new_objects, board):
     speed = 150
     player = Player.get_instance()
@@ -68,14 +74,12 @@ def play_room_animation(old_objects, new_objects, board):
         horizontal = False
         direction = -1
 
-
     if horizontal:
         for x in new_objects:
             x.set_x(x.get_x() - 16 * 16 * direction)
     if not horizontal:
         for x in new_objects:
             x.set_y(x.get_y() - 16 * 16 * direction)
-
 
     objects_list = new_objects
     new_objects = pygame.sprite.Group()
@@ -89,7 +93,8 @@ def play_room_animation(old_objects, new_objects, board):
     game_state = GameState.get_instance()
     board = calculate_scale(screen.get_size(), board, True)
     move = 0
-    while(True):
+
+    while True:
         time_delta = clock.tick(120)
         move += speed * (time_delta/1000) * game_state.get_board_scale()
         screen.fill((0, 0, 0))
@@ -125,17 +130,22 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
     Game loop
     Return objects to play animation 
     """
+
     objects = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
+
+
     for o in objects_list:
         if not isinstance(o, Teleport):
             objects.add(o)
         else:
             teleports.add(o)
+
     for obj in objects:
         if obj.type in ('ghost', 'rock'):
             enemies.add(obj)
+
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
 
@@ -148,10 +158,24 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
 
     running = True
     while running:
+
+        inventory = Inventory.get_instance()
+        inventory_board = pygame.Surface(inventory.get_size())
+
+        inventory_g = pygame.sprite.Group()
+        inventory_bar = pygame.sprite.Group()
+        inventory_bar.add(inventory)
+
+        for o in inventory.get_items():
+            # print(o)
+            inventory_g.add(o)
+
         time_delta = clock.tick(120)
         # RGB from 0 to 255
         screen.fill((0, 0, 0))
         board.fill((0, 0, 0))
+        inventory_board.fill((0, 0, 0))
+
         objects.update(time_delta)
         teleports.update(time_delta)
         player.update(time_delta, objects)
@@ -159,7 +183,10 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
         objects.draw(board)
         teleports.draw(board)
         player_group.draw(board)
+        inventory_bar.draw(inventory_board)
+        inventory_g.draw(inventory_board)
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        screen.blit(inventory_board, (0, 0))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
