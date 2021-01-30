@@ -28,9 +28,9 @@ class RoomManager:
     def set_lvl(self, lvl: int):
         self.lvl = lvl
         self._x = 10
-        self._y = 10
+        self._y = 12
         # Clear rooms
-        self.rooms = [ [None for _ in range(21)] for _ in range(21) ]
+        self.rooms = [[None for _ in range(21)] for _ in range(21)]
 
     def get_lvl(self):
         return self.lvl
@@ -103,5 +103,21 @@ class RoomManager:
                 elif tile == 't':
                     objects.append(
                         Trellis(x*16, y*16)
-                    ) 
+                    )
+                elif tile == 'e':
+                    objects.append(
+                        Wall(x*16, y*16)
+                    )
+                elif tile == 'd':
+                    objects.append(
+                        Wall(x*16, y*16)
+                    )
+                elif tile == 'a':
+                    objects.append(
+                        Wall(x*16, y*16)
+                    )
+                elif tile == 'c':
+                    objects.append(
+                        Wall(x*16, y*16)
+                    )
         return objects
