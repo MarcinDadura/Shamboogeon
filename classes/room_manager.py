@@ -3,6 +3,7 @@ from classes.teleport import Teleport
 from classes.door import Door
 from classes.rock import Rock
 from classes.key import Key
+from classes.ghost import Ghost
 
 
 class RoomManager:
@@ -88,5 +89,9 @@ class RoomManager:
                 elif tile == 'l':
                     objects.append(
                         Key(x*16, y*16, 2)
+                    ) 
+                elif tile == 'g':
+                    objects.append(
+                        Ghost(x*16, y*16)
                     ) 
         return objects
