@@ -98,7 +98,8 @@ def play_room_animation(old_objects, new_objects, board):
         time_delta = clock.tick(120)
         move += speed * (time_delta/1000) * game_state.get_board_scale()
         screen.fill((0, 0, 0))
-        board.fill((0, 0, 30))
+
+        board.fill((0, 255, 0))
         new_objects.draw(board)
         old_objects.draw(board)
         player_group.draw(board)
@@ -173,9 +174,8 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
         time_delta = clock.tick(120)
         # RGB from 0 to 255
         screen.fill((0, 0, 0))
-        board.fill((0, 0, 30))
-        inventory_board.fill((0, 0, 0))
 
+        board.fill((0, 255, 0))
         objects.update(time_delta)
         teleports.update(time_delta)
         player.update(time_delta, objects)
