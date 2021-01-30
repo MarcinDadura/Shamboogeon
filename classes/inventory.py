@@ -76,7 +76,7 @@ class Inventory(GameObject):
 
             self.items = items
 
-            self.add_item(Item("key_unit", "key", pygame.image.load("img/key_1.png").convert_alpha(),  0, 0, 16, 16))
+            self.add_item(Item("key_unit", "key", pygame.image.load("img/klucz.png").convert_alpha(),  0, 0, 16, 16))
 
             self.itemsSize()
             print(self.items)
