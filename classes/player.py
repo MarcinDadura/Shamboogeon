@@ -16,11 +16,15 @@ class Player(GameObject):
         # Load sprite only once
         if Player.player_sprite is None:
 
-            Player.player_sprite = [pygame.image.load('img/hero-frame-0_1.png').convert_alpha(),
-                                    pygame.image.load('img/hero-frame-0_2.png').convert_alpha(),
-                                    pygame.image.load('img/hero-frame-0_3.png').convert_alpha()]
-        super().__init__(x, y, 12, 12, Player.player_sprite[0], 'player')
+            Player.player_sprite_left = [pygame.image.load('img/hero-frame-0_1.png').convert_alpha(),
+                                         pygame.image.load('img/hero-frame-0_2.png').convert_alpha(),
+                                         pygame.image.load('img/hero-frame-0_3.png').convert_alpha()]
+            Player.player_sprite_right = [pygame.image.load('img/hero-frame-0_4.png').convert_alpha(),
+                                          pygame.image.load('img/hero-frame-0_5.png').convert_alpha(),
+                                          pygame.image.load('img/hero-frame-0_6.png').convert_alpha()]
+        super().__init__(x, y, 12, 12, Player.player_sprite_left[0], 'player')
         self.index = 0
+        self.direction = 0
 
     @classmethod
     def get_instance(cls):
@@ -30,17 +34,26 @@ class Player(GameObject):
         return cls._instance
 
     def update(self, time_delta, objects):
-        self.set_sprite(Player.player_sprite[0])
+
+        if self.direction == 0:
+            self.set_sprite(Player.player_sprite_right[0])
+        else:
+            self.set_sprite(Player.player_sprite_left[0])
         keys = pygame.key.get_pressed()
         old_x = self.get_x()
         horizontal_direction = 0
         if keys[K_d]:
+            self.direction = 0
             horizontal_direction += 1
-        if keys[K_a]:
-            horizontal_direction -= 1
-            self.set_sprite(Player.player_sprite[self.index//10])
+            self.set_sprite(Player.player_sprite_right[self.index // 10])
             self.index += 1
-            print(self.index)
+            if self.index > 20:
+                self.index = 0
+        if keys[K_a]:
+            self.direction = 1
+            horizontal_direction -= 1
+            self.set_sprite(Player.player_sprite_left[self.index//10])
+            self.index += 1
             if self.index > 20:
                 self.index = 0
 
@@ -69,12 +82,32 @@ class Player(GameObject):
                 break
 
         vertical_direction = 0
+
         if keys[K_s]:
             vertical_direction -= 1
+            if self.direction == 0:
+                self.set_sprite(Player.player_sprite_right[self.index // 10])
+                self.index += 1
+                if self.index > 20:
+                    self.index = 0
+            if self.direction == 1:
+                self.set_sprite(Player.player_sprite_left[self.index // 10])
+                self.index += 1
+                if self.index > 20:
+                    self.index = 0
         if keys[K_w]:
             vertical_direction += 1
-        old_y = self.get_y()
-
+            old_y = self.get_y()
+            if self.direction == 0:
+                self.set_sprite(Player.player_sprite_right[self.index // 10])
+                self.index += 1
+                if self.index > 20:
+                    self.index = 0
+            if self.direction == 1:
+                self.set_sprite(Player.player_sprite_left[self.index // 10])
+                self.index += 1
+                if self.index > 20:
+                    self.index = 0
         self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
