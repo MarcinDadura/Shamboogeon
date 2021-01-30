@@ -124,7 +124,7 @@ class RoomManager:
                 elif tile == 'c':
                     objects.append(
                         Wall(x*16, y*16)
-
+                    )
                 elif tile == 'd':
                     objects.append(
                         Monster(x * 16, y * 16, 5,'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
