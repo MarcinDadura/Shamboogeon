@@ -91,3 +91,15 @@ class Inventory(GameObject):
                 return True
 
         return False
+
+    def get_arrow(self):
+        arrow = None
+        for x in self.items:
+            if x.title == 'arrow':
+                arrow = x
+
+        if arrow is not None:
+            self.remove_item(arrow)
+            return True
+
+        return False
