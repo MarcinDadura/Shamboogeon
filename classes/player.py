@@ -48,7 +48,8 @@ class Player(GameObject):
                 inventory.unitKey()
                 obj.kill()
             elif obj.type == 'door' and inventory.checkKey():
-                    obj.kill()
+                obj.sound = obj.sound.play()
+                obj.kill()
 
             elif obj.type == 'ghost':
                 print('ghost!!!')
@@ -78,6 +79,7 @@ class Player(GameObject):
                 obj.kill()
 
             elif obj.type == 'door' and inventory.checkKey():
+                obj.sound = obj.sound.play()
                 obj.kill()
 
             elif obj.type == 'ghost':
