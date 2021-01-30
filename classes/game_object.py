@@ -21,6 +21,7 @@ class GameObject(Sprite):
         self._height = height 
         self.image = sprite
         self.type = object_type
+        self.cary = False
         scale = GameState.get_instance().get_board_scale()
         self.rect = Rect((x * scale, y * scale, width * scale, height * scale))
 

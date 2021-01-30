@@ -43,8 +43,9 @@ class Player(GameObject):
                     self.set_x(old_x)
                     break
             elif obj.type == 'key':
-                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0, 16, 16)
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
+                obj.cary = True
                 inventory.unitKey()
                 obj.kill()
             elif obj.type == 'door' and inventory.checkKey():
@@ -73,13 +74,15 @@ class Player(GameObject):
                     self.set_y(old_y)
                     break
             elif obj.type == 'key':
-                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0, 16, 16)
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
+                obj.cary = True
                 inventory.unitKey()
                 obj.kill()
 
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
+                inventory.key_delete()
                 obj.kill()
 
             elif obj.type == 'ghost':
