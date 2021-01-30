@@ -15,7 +15,7 @@ class Player(GameObject):
         self.speed = 100
         # Load sprite only once
         if Player.player_sprite is None:
-            Player.player_sprite = pygame.image.load('img/player.png').convert_alpha()
+            Player.player_sprite = pygame.image.load('img/hero-frame-0_1.png').convert_alpha()
         super().__init__(x, y, 12, 12, Player.player_sprite, 'player')
 
     @classmethod
