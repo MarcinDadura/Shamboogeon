@@ -11,18 +11,23 @@ width = 800
 height = 600
 
 try:
-    file_name = sys.argv[1]
+    lvl = sys.argv[1]
 except IndexError:
     print('''
 Usage:
-    python3 lvl_editor.py FILE_NAME
+    python3 lvl_editor.py LVL
 
 Example:
-    python3 lvl_editor.py room1.txt
+    python3 lvl_editor.py 1
     ''')
     exit(0)
 
-print('Shortcuts:\n\ts - save')
+print('''
+Shortcuts:
+    p - save
+    w/a/s/d - change room
+    q/e - change current object
+''')
 
 background = (0, 0, 0)
 
@@ -34,7 +39,7 @@ game_map = [['0' for _ in range(16)] for _ in range(16)]
 
 # Try to load level from file
 try:
-    with open(file_name, 'r') as filee:
+    with open('levels/{}/10_10.txt'.format(lvl), 'r') as filee:
         game_map = []
         for row in filee:
             game_map.append(list(row[:-1])) 
@@ -46,7 +51,10 @@ window = pygame.display.set_mode((800, 600))
 # All available objects
 objects = {
     '#': pygame.transform.scale(pygame.image.load('img/wall.png'), (tile_size, tile_size)),
-    '$': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
+    '$': pygame.transform.scale(pygame.image.load('img/teleport.png'), (tile_size, tile_size)),
+    '{': pygame.transform.scale(pygame.image.load('img/door_left.png'), (tile_size, tile_size)),
+    '}': pygame.transform.scale(pygame.image.load('img/door_right.png'), (tile_size, tile_size)),
+    'r': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]
@@ -61,18 +69,34 @@ def get_grid_pos(click_pos):
         y = 0
     return (x, y)
 
-def save_to_file():
-    with open(file_name, 'w') as filee:
+def save_to_file(pos_x, pos_y):
+    with open('levels/{}/{}_{}.txt'.format(lvl, pos_x, pos_y), 'w') as filee:
         for row in game_map:
             filee.write(''.join(row) + '\n')
 
 palete_i = 0
 running = True
 
-pygame.display.set_caption(file_name)
 
-def go_to(x, y):
-    pass
+pos_x = 10
+pos_y = 10
+
+pygame.display.set_caption('LVL {} - {}:{}'.format(lvl, pos_x, pos_y))
+
+def load_room(pos_x, pos_y):
+    pygame.display.set_caption('LVL {} - {}:{}'.format(lvl, pos_x, pos_y))
+    # Create empty map
+    game_map = [['0' for _ in range(16)] for _ in range(16)]
+
+    # Try to load level from file
+    try:
+        with open('levels/{}/{}_{}.txt'.format(lvl, pos_x, pos_y), 'r') as filee:
+            game_map = []
+            for row in filee:
+                game_map.append(list(row[:-1])) 
+    except FileNotFoundError:
+        pass
+    return game_map
 
 while running:
     window.fill(background)
@@ -97,16 +121,28 @@ while running:
         if event.type == QUIT:
             running = False
         if event.type == KEYDOWN:
-            if event.key == K_UP:
+            if event.key == K_q:
                 palete_i += 1
                 if palete_i >= len(palete):
                     palete_i = 0
-            elif event.key == K_DOWN:
+            elif event.key == K_e:
                 palete_i -= 1
                 if palete_i < 0:
                     palete_i = len(palete) - 1 
+            elif event.key == K_p:
+                save_to_file(pos_x, pos_y)
+            elif event.key == K_w:
+                pos_y -= 1
+                game_map = load_room(pos_x, pos_y)
             elif event.key == K_s:
-                save_to_file()
+                pos_y += 1
+                game_map = load_room(pos_x, pos_y)
+            elif event.key == K_a:
+                pos_x -= 1
+                game_map = load_room(pos_x, pos_y)
+            elif event.key == K_d:
+                pos_x += 1
+                game_map = load_room(pos_x, pos_y)
 
     buttons = pygame.mouse.get_pressed()
     if buttons[0]:

@@ -12,7 +12,7 @@ class GameObject(Sprite):
     # Store all created game objects
     all_objects = pygame.sprite.Group()
 
-    def __init__(self, x: float, y: float, width: int, height: int, sprite: Sprite):
+    def __init__(self, x: float, y: float, width: int, height: int, sprite: Sprite, object_type=''):
         super().__init__()
         GameObject.all_objects.add(self)
         self._x = x
@@ -20,6 +20,7 @@ class GameObject(Sprite):
         self._width = width 
         self._height = height 
         self.image = sprite
+        self.type = object_type
         scale = GameState.get_instance().get_board_scale()
         self.rect = Rect((x * scale, y * scale, width * scale, height * scale))
 
@@ -42,7 +43,11 @@ class GameObject(Sprite):
 
     @classmethod
     def clear_objects_list(cls):
+        old = cls.all_objects
         cls.all_objects = pygame.sprite.Group()
+        for x in old:
+            if x.type == 'player':
+                cls.all_objects.add(x)
 
     def set_x(self, x:float):
         # Change spirte position
