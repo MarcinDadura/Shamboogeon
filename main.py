@@ -236,8 +236,11 @@ def calculate_scale(size, board, force=False):
         GameObject.rescale()
         board = pygame.transform.scale(board, (v_tiles * 16 * 16, v_tiles * 16 * 16))
     return board
+"""
+Menu init
+"""
 
-game_menu = Menu( screen, 'img/drzwi_loch.ogg')
+game_menu = Menu( screen, 'sounds/menu-theme-final.ogg')
 game_menu.add_button('Start', game)
 game_menu.add_button("Quit", pygame_menu.events.EXIT)
 check_size = screen.get_size()
@@ -245,13 +248,17 @@ check_size = screen.get_size()
 
 while main_menu():
 
-    #game(screen)
-    game_menu.menu.mainloop(screen, disable_loop=main_menu())
-    if(check_size !=  screen.get_size()):
-        game_menu.response(screen.get_width(), screen.get_height())
-        game_menu.add_button('Start', (game))
-        game_menu.add_button("Quit", pygame_menu.events.EXIT)
-        check_size = screen.get_size()
+
+
+        game_menu.menu.mainloop(screen, disable_loop=main_menu())
+        if(check_size !=  screen.get_size()):
+            game_menu.response(screen.get_width(), screen.get_height())
+            game_menu.add_button('Start', (game))
+            game_menu.add_button("Quit", pygame_menu.events.EXIT)
+            check_size = screen.get_size()
+
+
+
 
 
 
