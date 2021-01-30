@@ -33,7 +33,7 @@ class Player(GameObject):
             cls(50, 50)
         return cls._instance
 
-    def update(self, time_delta, objects):
+    def update(self, time_delta, objects, enemies=None):
 
         if self.direction == 0:
             self.set_sprite(Player.player_sprite_right[0])
@@ -134,6 +134,12 @@ class Player(GameObject):
             else:
                 self.set_y(old_y)
                 break
+
+        if enemies is not None:
+            for obj in  pygame.sprite.spritecollide(self, enemies, dokill=False):
+                if obj.type == 'arrow':
+                    obj.kill()
+                    print('pick up')
 
     def check_if_hit_border(self) -> bool:
         if self._x < 0 or self._y < 0 or (self._x + self._width) > (16*16) or (self._y + self._height) > (16*16):

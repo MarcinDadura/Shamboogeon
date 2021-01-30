@@ -212,9 +212,10 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         board.fill((0, 255, 0))
         objects.update(time_delta)
         teleports.update(time_delta)
-        player.update(time_delta, objects)
+        player.update(time_delta, objects, enemies)
         enemies.update(time_delta, objects)
         objects.draw(board)
+        enemies.draw(board)
         teleports.draw(board)
         player_group.draw(board)
         inventory_bar.draw(inventory_board)
@@ -242,7 +243,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                     arrow = Arrow.shoot_arrow(1, 0)
 
                 if arrow is not None:
-                    objects.add(arrow)
+                    enemies.add(arrow)
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.size
                 if width < 300:
