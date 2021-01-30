@@ -145,7 +145,6 @@ class Player(GameObject):
                     inventory.add_item(item)
                     obj.cary = True
                     obj.kill()
-                    print('pick up')
 
     def check_if_hit_border(self) -> bool:
         if self._x < 0 or self._y < 0 or (self._x + self._width) > (16*16) or (self._y + self._height) > (16*16):
