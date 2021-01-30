@@ -6,6 +6,8 @@ from classes.key import Key
 from classes.ghost import Ghost
 from classes.button import Button
 from classes.trellis import Trellis
+from classes.monster import Monster
+
 
 
 class RoomManager:
@@ -103,5 +105,9 @@ class RoomManager:
                 elif tile == 't':
                     objects.append(
                         Trellis(x*16, y*16)
-                    ) 
+                    )
+                elif tile == 'd':
+                    objects.append(
+                        Monster(x * 16, y * 16, 5,'sounds/ghost_damage.ogg', 'img/demon_0.png', 'demon', 0)
+                    )
         return objects

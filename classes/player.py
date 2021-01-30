@@ -131,6 +131,9 @@ class Player(GameObject):
             elif obj.type == 'ghost':
                 obj.sound.play()
                 print('ghost!!!')
+            elif obj.type == 'demon':
+                obj.sound.play()
+                print('kurwaaw!!!')
             else:
                 self.set_y(old_y)
                 break
