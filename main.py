@@ -1,21 +1,24 @@
 import pygame
+import pygame_menu
 from classes.game_state import GameState
 from classes.room_manager import RoomManager
 from classes.game_object import GameObject
 from classes.player import Player
 from classes.teleport import Teleport
-
+from classes.main_menu import  Menu
 
 # Initialize pygame
 pygame.init()
 
 # Creating the screen
 screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+
 #pygame.mixer.music.load('elo.ogg')
 #pygame.mixer.music.play(-1)
 
 # Title
 pygame.display.set_caption("Shamboo")
+
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -24,6 +27,7 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
+    game_menu.sound.stop()
     game_state = GameState.get_instance()
     game_state.reset()
 
@@ -199,6 +203,23 @@ def calculate_scale(size, board, force=False):
         board = pygame.transform.scale(board, (v_tiles * 16 * 16, v_tiles * 16 * 16))
     return board
 
+game_menu = Menu( screen, 'img/drzwi_loch.ogg')
+game_menu.add_button('Start', game)
+game_menu.add_button("Quit", pygame_menu.events.EXIT)
+check_size = screen.get_size()
+
+
 while main_menu():
-    game(screen)
-    break
+
+    #game(screen)
+    game_menu.menu.mainloop(screen, disable_loop=main_menu())
+    if(check_size !=  screen.get_size()):
+        game_menu.response(screen.get_width(), screen.get_height())
+        game_menu.add_button('Start', (game))
+        game_menu.add_button("Quit", pygame_menu.events.EXIT)
+        check_size = screen.get_size()
+
+
+
+
+
