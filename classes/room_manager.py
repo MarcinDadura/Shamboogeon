@@ -4,6 +4,7 @@ from classes.door import Door
 from classes.rock import Rock
 from classes.key import Key
 from classes.ghost import Ghost
+from classes.button import Button
 
 
 class RoomManager:
@@ -93,5 +94,9 @@ class RoomManager:
                 elif tile == 'g':
                     objects.append(
                         Ghost(x*16, y*16)
+                    ) 
+                elif tile == 'b':
+                    objects.append(
+                        Button(x*16, y*16)
                     ) 
         return objects
