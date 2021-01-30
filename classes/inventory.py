@@ -32,13 +32,8 @@ class Inventory(GameObject):
         return self.items
 
     def add_item(self, item: Item):
-        # x = 0 if self.count % 2 == 0 else 16
-        # self.i_y = self.i_y + 16 if self.count != 0 and self.count % 2 == 0 else self.i_y
-        # item.set_x(x)
-        # item.set_y(self.i_y)
         self.items.append(item)
         self.itemsSize()
-        # self.count += 1
 
     def remove_item(self, item: Item):
         self.items.remove(item)
