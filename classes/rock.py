@@ -51,7 +51,26 @@ class Rock(GameObject):
         self.set_y(self.get_y() + movement * self.direction[1])
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type != 'player' and obj is not self:
+            if obj.type == 'button':
+                self.direction = [0, 0]
+                self.set_x(obj.get_x() + 1)
+                self.set_y(obj.get_y() + 1)
+                if self.sound is not None:
+                    self.sound.stop()
+                open_the_trellis = True
+                for x in GameObject.all_objects:
+                    if x.type == 'button':
+                        if not x.is_pushed():
+                            open_the_trellis = False
+                
+                if open_the_trellis:
+                    for x in GameObject.all_objects:
+                        if x.type == 'trellis':
+                            x.kill()
+
+
+
+            elif obj.type != 'player' and obj is not self:
                 self.set_x(old_x)
                 self.set_y(old_y)
                 self.direction = [0, 0]
