@@ -55,7 +55,10 @@ def game(screen):
         game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
         game_sound.play(-1)
         game_sound.set_volume(0.1)
-
+    if (room_manager.get_lvl() == 2):
+        game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
+        game_sound.play(-1)
+        game_sound.set_volume(0.1)
     board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
