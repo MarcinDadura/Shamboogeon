@@ -15,7 +15,6 @@ class Rock(GameObject):
 
     def try_to_move(self, horizontal: float, vertiacal: float, objects):
         """Return True on success"""
-        print(horizontal)
         old_x = self.get_x()
         old_y = self.get_y()
         self.set_x(self.get_x() + horizontal)
