@@ -39,6 +39,11 @@ def game(screen):
     inventory = Inventory.get_instance()
     inventory_board = pygame.Surface(inventory.get_size())
 
+    item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+    item2 = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+    Inventory.get_instance().add_item(item)
+    Inventory.get_instance().add_item(item2)
+
     game_state.reset()
 
     room_manager = RoomManager.get_instance()
@@ -177,7 +182,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         elif not o.cary:
             teleports.add(o)
         elif o.cary:
-            print(o.cary)
+            pass
 
     for obj in objects:
         if obj.type in ('ghost', 'rock'):
@@ -201,6 +206,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     running = True
     while running:
 
+        inventory_g = pygame.sprite.Group()
         for o in inventory.get_items():
             o.rescale()
             inventory_g.add(o)
@@ -208,6 +214,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         time_delta = clock.tick(120)
         # RGB from 0 to 255
         screen.fill((0, 0, 0))
+        inventory_board.fill((0, 0, 0))
 
         board.fill((0, 255, 0))
         objects.update(time_delta)
@@ -218,8 +225,10 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         enemies.draw(board)
         teleports.draw(board)
         player_group.draw(board)
+
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
+
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
         pygame.display.flip()
