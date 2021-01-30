@@ -22,7 +22,7 @@ class Player(GameObject):
             Player.player_sprite_right = [pygame.image.load('img/hero-frame-0_4.png').convert_alpha(),
                                           pygame.image.load('img/hero-frame-0_5.png').convert_alpha(),
                                           pygame.image.load('img/hero-frame-0_6.png').convert_alpha()]
-        super().__init__(x, y, 12, 12, Player.player_sprite_left[0], 'player')
+        super().__init__(x, y, 11, 14, Player.player_sprite_left[0], 'player')
         self.index = 0
         self.direction = 0
 
@@ -77,7 +77,9 @@ class Player(GameObject):
                 obj.kill()
 
             elif obj.type == 'ghost':
-                print('ghost!!!')
+                pass
+            elif obj.type == 'demon':
+                obj.sound.play()
             else:
                 self.set_x(old_x)
                 break
@@ -130,10 +132,8 @@ class Player(GameObject):
 
             elif obj.type == 'ghost':
                 obj.sound.play()
-                print('ghost!!!')
             elif obj.type == 'demon':
                 obj.sound.play()
-                print('kurwaaw!!!')
             else:
                 self.set_y(old_y)
                 break
@@ -145,7 +145,6 @@ class Player(GameObject):
                     inventory.add_item(item)
                     obj.cary = True
                     obj.kill()
-                    print('pick up')
 
     def check_if_hit_border(self) -> bool:
         if self._x < 0 or self._y < 0 or (self._x + self._width) > (16*16) or (self._y + self._height) > (16*16):

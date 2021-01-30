@@ -1,5 +1,6 @@
 from classes.game_object import GameObject
 import pygame
+from pygame.sprite import Sprite
 
 
 class Wall(GameObject):
@@ -7,8 +8,7 @@ class Wall(GameObject):
 
     wall_sprite = None
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int, sprite: Sprite = None):
         # Load sprite only once
-        if Wall.wall_sprite is None:
-            Wall.wall_sprite = pygame.image.load('img/wall.png').convert_alpha()
-        super().__init__(x, y, 16, 16, Wall.wall_sprite, 'wall')
+        self.wall_sprite = pygame.image.load('img/wall.png').convert_alpha() if sprite is None else sprite
+        super().__init__(x, y, 16, 16, self.wall_sprite, 'wall')

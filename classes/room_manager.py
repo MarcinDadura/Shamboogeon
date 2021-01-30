@@ -7,8 +7,8 @@ from classes.ghost import Ghost
 from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
-
-
+from classes.inventory import Inventory
+import pygame
 
 class RoomManager:
     _instance = None
@@ -30,9 +30,9 @@ class RoomManager:
     def set_lvl(self, lvl: int):
         self.lvl = lvl
         self._x = 10
-        self._y = 10
+        self._y = 12
         # Clear rooms
-        self.rooms = [ [None for _ in range(21)] for _ in range(21) ]
+        self.rooms = [[None for _ in range(21)] for _ in range(21)]
 
     def get_lvl(self):
         return self.lvl
@@ -87,9 +87,11 @@ class RoomManager:
                         Rock(x*16 + 1, y*16 + 1)
                     ) 
                 elif tile == 'k':
-                    objects.append(
-                        Key(x*16, y*16, 1)
-                    ) 
+                    inventory = Inventory.get_instance()
+                    if not inventory.checkKey():
+                        objects.append(
+                            Key(x*16, y*16, 1)
+                        )
                 elif tile == 'l':
                     objects.append(
                         Key(x*16, y*16, 2)
@@ -106,8 +108,26 @@ class RoomManager:
                     objects.append(
                         Trellis(x*16, y*16)
                     )
+
+                elif tile == 'e':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_wall_broken.png').convert_alpha())
+                    )
+                elif tile == 'j':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_spiders_web.png').convert_alpha())
+                    )
+                elif tile == 'a':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_bones.png').convert_alpha())
+                    )
+                elif tile == 'c':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_skull.png').convert_alpha())
+                    )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 5,'sounds/ghost_damage.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+
                     )
         return objects
