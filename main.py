@@ -1,9 +1,11 @@
 import pygame
+import pygame_menu
 from classes.game_state import GameState
 from classes.room_manager import RoomManager
 from classes.game_object import GameObject
 from classes.player import Player
 from classes.teleport import Teleport
+from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
 
@@ -12,6 +14,9 @@ pygame.init()
 
 # Creating the screen
 screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+
+#pygame.mixer.music.load('elo.ogg')
+#pygame.mixer.music.play(-1)
 # pygame.mixer.music.load('elo.ogg')
 # pygame.mixer.music.play(-1)
 
@@ -27,6 +32,7 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
+    game_menu.sound.stop()
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -254,7 +260,31 @@ def calculate_scale(size, board, force=False):
         GameObject.rescale()
         board = pygame.transform.scale(board, (v_tiles * 16 * 16, v_tiles * 16 * 16))
     return board
+"""
+Menu init
+"""
+
+game_menu = Menu( screen, 'sounds/menu-theme-final.ogg')
+game_menu.add_button('Start', game)
+game_menu.add_button("Quit", pygame_menu.events.EXIT)
+check_size = screen.get_size()
+
 
 while main_menu():
-    game(screen)
-    break
+
+
+
+        game_menu.menu.mainloop(screen, disable_loop=main_menu())
+        if(check_size !=  screen.get_size()):
+            game_menu.response(screen.get_width(), screen.get_height())
+            game_menu.add_button('Start', (game))
+            game_menu.add_button("Quit", pygame_menu.events.EXIT)
+            check_size = screen.get_size()
+
+
+
+
+
+
+
+
