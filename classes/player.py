@@ -15,8 +15,12 @@ class Player(GameObject):
         self.speed = 100
         # Load sprite only once
         if Player.player_sprite is None:
-            Player.player_sprite = pygame.image.load('img/hero-frame-0_1.png').convert_alpha()
-        super().__init__(x, y, 12, 12, Player.player_sprite, 'player')
+
+            Player.player_sprite = [pygame.image.load('img/hero-frame-0_1.png').convert_alpha(),
+                                    pygame.image.load('img/hero-frame-0_2.png').convert_alpha(),
+                                    pygame.image.load('img/hero-frame-0_3.png').convert_alpha()]
+        super().__init__(x, y, 12, 12, Player.player_sprite[0], 'player')
+        self.index = 0
 
     @classmethod
     def get_instance(cls):
@@ -26,6 +30,7 @@ class Player(GameObject):
         return cls._instance
 
     def update(self, time_delta, objects):
+        self.set_sprite(Player.player_sprite[0])
         keys = pygame.key.get_pressed()
         old_x = self.get_x()
         horizontal_direction = 0
@@ -33,6 +38,11 @@ class Player(GameObject):
             horizontal_direction += 1
         if keys[K_a]:
             horizontal_direction -= 1
+            self.set_sprite(Player.player_sprite[self.index//10])
+            self.index += 1
+            print(self.index)
+            if self.index > 20:
+                self.index = 0
 
         self.set_x(self._x + self.speed * (time_delta/1000) * horizontal_direction)
 
@@ -43,12 +53,14 @@ class Player(GameObject):
                     self.set_x(old_x)
                     break
             elif obj.type == 'key':
-                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0, 16, 16)
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
+                obj.cary = True
                 inventory.unitKey()
                 obj.kill()
             elif obj.type == 'door' and inventory.checkKey():
-                    obj.kill()
+                obj.sound = obj.sound.play()
+                obj.kill()
 
             elif obj.type == 'ghost':
                 print('ghost!!!')
@@ -72,12 +84,14 @@ class Player(GameObject):
                     self.set_y(old_y)
                     break
             elif obj.type == 'key':
-                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0, 16, 16)
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
+                obj.cary = True
                 inventory.unitKey()
                 obj.kill()
 
             elif obj.type == 'door' and inventory.checkKey():
+                obj.sound = obj.sound.play()
                 obj.kill()
 
             elif obj.type == 'ghost':
