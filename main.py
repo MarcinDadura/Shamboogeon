@@ -55,6 +55,7 @@ def game(screen):
         game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
         game_sound.play(-1)
         game_sound.set_volume(0.1)
+
     board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
