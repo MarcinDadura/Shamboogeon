@@ -1,6 +1,8 @@
 from classes.game_object import GameObject
 import pygame
 from pygame.locals import *
+from classes.item import Item
+from classes.inventory import Inventory
 
 
 class Player(GameObject):
@@ -13,7 +15,7 @@ class Player(GameObject):
         self.speed = 100
         # Load sprite only once
         if Player.player_sprite is None:
-            Player.player_sprite = pygame.image.load('img/player.png').convert_alpha()
+            Player.player_sprite = pygame.image.load('img/hero-frame-0_1.png').convert_alpha()
         super().__init__(x, y, 12, 12, Player.player_sprite, 'player')
 
     @classmethod
@@ -35,13 +37,24 @@ class Player(GameObject):
         self.set_x(self._x + self.speed * (time_delta/1000) * horizontal_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type != 'rock':
-                self.set_x(old_x)
-                break
-            else:
-                if not obj.try_to_move(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+            inventory = Inventory.get_instance()
+            if obj.type == 'rock':
+                if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
                     self.set_x(old_x)
                     break
+            elif obj.type == 'key':
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0, 16, 16)
+                inventory.add_item(item)
+                inventory.unitKey()
+                obj.kill()
+            elif obj.type == 'door' and inventory.checkKey():
+                    obj.kill()
+
+            elif obj.type == 'ghost':
+                print('ghost!!!')
+            else:
+                self.set_x(old_x)
+                break
 
         vertical_direction = 0
         if keys[K_s]:
@@ -53,13 +66,26 @@ class Player(GameObject):
         self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type != 'rock':
-                self.set_y(old_y)
-                break
-            else:
-                if not obj.try_to_move(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+            inventory = Inventory.get_instance()
+            if obj.type == 'rock':
+                if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break
+            elif obj.type == 'key':
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0, 16, 16)
+                inventory.add_item(item)
+                inventory.unitKey()
+                obj.kill()
+
+            elif obj.type == 'door' and inventory.checkKey():
+                obj.kill()
+
+            elif obj.type == 'ghost':
+                obj.sound.play()
+                print('ghost!!!')
+            else:
+                self.set_y(old_y)
+                break
 
     def check_if_hit_border(self) -> bool:
         if self._x < 0 or self._y < 0 or (self._x + self._width) > (16*16) or (self._y + self._height) > (16*16):
