@@ -39,7 +39,7 @@ class Player(GameObject):
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
             inventory = Inventory.get_instance()
             if obj.type == 'rock':
-                if not obj.try_to_move(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+                if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
                     self.set_x(old_x)
                     break
             elif obj.type == 'key':
@@ -47,11 +47,8 @@ class Player(GameObject):
                 inventory.add_item(item)
                 inventory.unitKey()
                 obj.kill()
-            elif obj.type == 'door':
-                # Collect key
-                if inventory.checkKey():
+            elif obj.type == 'door' and inventory.checkKey():
                     obj.kill()
-                    print('open')
 
             elif obj.type == 'ghost':
                 print('ghost!!!')
@@ -69,17 +66,20 @@ class Player(GameObject):
         self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+            inventory = Inventory.get_instance()
             if obj.type == 'rock':
-                if not obj.try_to_move(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+                if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break
             elif obj.type == 'key':
-                # Collect key
-                print('collect')
-            elif obj.type == 'door':
-                # Collect key
+                item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0, 16, 16)
+                inventory.add_item(item)
+                inventory.unitKey()
                 obj.kill()
-                print('open')
+
+            elif obj.type == 'door' and inventory.checkKey():
+                obj.kill()
+
             elif obj.type == 'ghost':
                 print('ghost!!!')
             else:

@@ -143,7 +143,7 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
             teleports.add(o)
 
     for obj in objects:
-        if obj.type == 'ghost':
+        if obj.type in ('ghost', 'rock'):
             enemies.add(obj)
 
     clock = pygame.time.Clock()
@@ -179,7 +179,7 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
         objects.update(time_delta)
         teleports.update(time_delta)
         player.update(time_delta, objects)
-        enemies.update(time_delta)
+        enemies.update(time_delta, objects)
         objects.draw(board)
         teleports.draw(board)
         player_group.draw(board)

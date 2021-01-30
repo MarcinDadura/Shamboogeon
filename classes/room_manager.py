@@ -80,7 +80,7 @@ class RoomManager:
                     ) 
                 elif tile == 'r':
                     objects.append(
-                        Rock(x*16, y*16)
+                        Rock(x*16 + 1, y*16 + 1)
                     ) 
                 elif tile == 'k':
                     objects.append(

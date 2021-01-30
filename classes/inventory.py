@@ -34,7 +34,6 @@ class Inventory(GameObject):
     def add_item(self, item: Item):
         x = 0 if self.count % 2 == 0 else 16
         self.i_y = self.i_y + 16 if self.count != 0 and self.count % 2 == 0 else self.i_y
-        print(x, self.i_y)
         item.set_x(x)
         item.set_y(self.i_y)
 
@@ -69,15 +68,18 @@ class Inventory(GameObject):
             elif o.title == "key_2":
                 key2 = True
 
-        print(key1, key2)
-
         if key2 and key1:
+            items = []
             for o in self.items:
-                if o.title == "key_1" or o.title == "key_2":
-                    self.items.remove(o)
-                    
+                if o.title != "key_1" and o.title != "key_2":
+                    items.append(o)
+
+            self.items = items
+
             self.add_item(Item("key_unit", "key", pygame.image.load("img/key_1.png").convert_alpha(),  0, 0, 16, 16))
+
             self.itemsSize()
+            print(self.items)
 
     def itemsSize(self):
         count = 0
@@ -85,7 +87,6 @@ class Inventory(GameObject):
             x = 0 if count % 2 == 0 else 16
             y = 16
             y = y + 16 if count != 0 and self.count % 2 == 0 else y
-            print(x, y)
             o.set_x(x)
             o.set_y(y)
             count = count + 1
