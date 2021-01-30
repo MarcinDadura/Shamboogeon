@@ -41,6 +41,7 @@ class Player(GameObject):
             self.set_sprite(Player.player_sprite_left[0])
         keys = pygame.key.get_pressed()
         old_x = self.get_x()
+        old_y = self.get_y()
         horizontal_direction = 0
         if keys[K_d]:
             self.direction = 0
