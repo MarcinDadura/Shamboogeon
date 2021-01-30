@@ -75,6 +75,7 @@ class Player(GameObject):
                 obj.kill()
                 print('open')
             elif obj.type == 'ghost':
+                obj.sound.play()
                 print('ghost!!!')
             else:
                 self.set_y(old_y)

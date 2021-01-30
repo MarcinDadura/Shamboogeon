@@ -6,6 +6,7 @@ class Rock(GameObject):
     """It's just a rock"""
 
     rock_sprite = None
+    sound = None
 
     def __init__(self, x: int, y: int):
         # Load sprite only once
@@ -13,10 +14,12 @@ class Rock(GameObject):
         self.speed = 150
         if Rock.rock_sprite is None:
             Rock.rock_sprite = pygame.image.load('img/kamien.png').convert_alpha()
+            Rock.sound = pygame.mixer.Sound('sounds/kamyk.ogg')
         super().__init__(x, y, 14, 14, Rock.rock_sprite, 'rock')
 
     def push(self, horizontal: float, vertiacal: float, objects):
         """Return True on success"""
+        self.sound = Rock.sound.play()
         old_x = self.get_x()
         old_y = self.get_y()
         self.set_x(self.get_x() + horizontal)
@@ -52,3 +55,5 @@ class Rock(GameObject):
                 self.set_x(old_x)
                 self.set_y(old_y)
                 self.direction = [0, 0]
+                if self.sound is not None:
+                    self.sound.stop()
