@@ -36,7 +36,7 @@ class Player(GameObject):
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
             if obj.type == 'rock':
-                if not obj.try_to_move(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+                if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
                     self.set_x(old_x)
                     break
             elif obj.type == 'key':
@@ -64,7 +64,7 @@ class Player(GameObject):
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
             if obj.type == 'rock':
-                if not obj.try_to_move(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+                if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break
             elif obj.type == 'key':

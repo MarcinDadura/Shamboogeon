@@ -15,7 +15,7 @@ class Ghost(GameObject):
             Ghost.ghost_sprite = pygame.image.load('img/ghost.png').convert_alpha()
         super().__init__(x, y, 16, 16, Ghost.ghost_sprite, 'ghost')
 
-    def update(self, time_delta):
+    def update(self, time_delta, objects=None):
         player = Player.get_instance()
         p_x = player.get_x()
         p_y = player.get_y()
