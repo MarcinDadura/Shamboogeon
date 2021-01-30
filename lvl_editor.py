@@ -62,7 +62,7 @@ objects = {
     'f': pygame.transform.scale(pygame.image.load('img/dungeon_background.png'), (tile_size, tile_size)),
     'a': pygame.transform.scale(pygame.image.load('img/dungeon_bones.png'), (tile_size, tile_size)),
     'c': pygame.transform.scale(pygame.image.load('img/dungeon_skull.png'), (tile_size, tile_size)),
-    'd': pygame.transform.scale(pygame.image.load('img/dungeon_spiders_web.png'), (tile_size, tile_size)),
+    'j': pygame.transform.scale(pygame.image.load('img/dungeon_spiders_web.png'), (tile_size, tile_size)),
     'e': pygame.transform.scale(pygame.image.load('img/dungeon_wall_broken.png'), (tile_size, tile_size)),
     'd': pygame.transform.scale(pygame.image.load('img/demon_0.png'), (tile_size, tile_size)),
 

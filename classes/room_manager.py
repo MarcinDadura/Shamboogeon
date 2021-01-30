@@ -8,7 +8,7 @@ from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
 from classes.inventory import Inventory
-
+import pygame
 
 class RoomManager:
     _instance = None
@@ -111,23 +111,23 @@ class RoomManager:
 
                 elif tile == 'e':
                     objects.append(
-                        Wall(x*16, y*16)
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_wall_broken.png').convert_alpha())
                     )
                 elif tile == 'j':
                     objects.append(
-                        Wall(x*16, y*16)
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_spiders_web.png').convert_alpha())
                     )
                 elif tile == 'a':
                     objects.append(
-                        Wall(x*16, y*16)
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_bones.png').convert_alpha())
                     )
                 elif tile == 'c':
                     objects.append(
-                        Wall(x*16, y*16)
+                        Wall(x*16, y*16, pygame.image.load('img/dungeon_skull.png').convert_alpha())
                     )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 5,'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
 
                     )
         return objects
