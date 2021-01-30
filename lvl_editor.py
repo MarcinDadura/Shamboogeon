@@ -55,6 +55,9 @@ objects = {
     '{': pygame.transform.scale(pygame.image.load('img/door_left.png'), (tile_size, tile_size)),
     '}': pygame.transform.scale(pygame.image.load('img/door_right.png'), (tile_size, tile_size)),
     'r': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
+    'k': pygame.transform.scale(pygame.image.load('img/arrow.png'), (tile_size, tile_size)),
+    'l': pygame.transform.scale(pygame.image.load('img/arrow.png'), (tile_size, tile_size)),
+    'g': pygame.transform.scale(pygame.image.load('img/ghost.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]
