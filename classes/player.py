@@ -92,7 +92,6 @@ class Player(GameObject):
 
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
-                inventory.key_delete()
                 obj.kill()
 
             elif obj.type == 'ghost':

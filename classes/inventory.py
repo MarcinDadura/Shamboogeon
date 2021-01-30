@@ -96,12 +96,3 @@ class Inventory(GameObject):
                 return True
 
         return False
-
-    def key_delete(self):
-        items = []
-        for o in self.items:
-            if o.title != "key_unit":
-                items.append(o)
-
-        self.items = items
-        self.itemsSize()
