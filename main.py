@@ -8,6 +8,7 @@ from classes.teleport import Teleport
 from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
+from classes.arrow import Arrow
 
 # Initialize pygame
 pygame.init()
@@ -226,6 +227,19 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                 if event.key == pygame.K_ESCAPE:
                     running = False
                     game_state.exit = True
+
+                arrow = None
+                if event.key == pygame.K_UP:
+                    arrow = Arrow.shoot_arrow(0, -1)
+                elif event.key == pygame.K_DOWN:
+                    arrow = Arrow.shoot_arrow(0, 1)
+                elif event.key == pygame.K_LEFT:
+                    arrow = Arrow.shoot_arrow(-1, 0)
+                elif event.key == pygame.K_RIGHT:
+                    arrow = Arrow.shoot_arrow(1, 0)
+
+                if arrow is not None:
+                    objects.add(arrow)
             elif event.type == pygame.VIDEORESIZE:
                 width, height = event.size
                 if width < 300:
@@ -242,7 +256,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         if pygame.sprite.spritecollideany(player, teleports):
             game_state.next_lvl = True
             running = False
-        
+
 
 def calculate_scale(size, board, force=False):
     game_state = GameState.get_instance()
@@ -275,18 +289,9 @@ check_size = screen.get_size()
 
 
 while main_menu():
-
     game_menu.menu.mainloop(screen, disable_loop=main_menu())
     if(check_size != screen.get_size()):
         game_menu.response(screen.get_width(), screen.get_height())
         game_menu.add_button('Start', game)
         game_menu.add_button("Quit", pygame_menu.events.EXIT)
         check_size = screen.get_size()
-
-
-
-
-
-
-
-
