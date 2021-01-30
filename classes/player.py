@@ -14,7 +14,7 @@ class Player(GameObject):
         # Load sprite only once
         if Player.player_sprite is None:
             Player.player_sprite = pygame.image.load('img/player.png').convert_alpha()
-        super().__init__(x, y, 12, 12, Player.player_sprite)
+        super().__init__(x, y, 12, 12, Player.player_sprite, 'player')
 
     @classmethod
     def get_instance(cls):
@@ -26,20 +26,40 @@ class Player(GameObject):
     def update(self, time_delta, objects):
         keys = pygame.key.get_pressed()
         old_x = self.get_x()
+        horizontal_direction = 0
         if keys[K_d]:
-            self.set_x(self._x + self.speed * (time_delta/1000))
+            horizontal_direction += 1
         if keys[K_a]:
-            self.set_x(self._x - self.speed * (time_delta/1000))
-        if pygame.sprite.spritecollideany(self, objects):
-            self.set_x(old_x)
+            horizontal_direction -= 1
 
-        old_y = self.get_y()
-        if keys[K_w]:
-            self.set_y(self._y - self.speed * (time_delta/1000))
+        self.set_x(self._x + self.speed * (time_delta/1000) * horizontal_direction)
+
+        for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+            if obj.type != 'rock':
+                self.set_x(old_x)
+                break
+            else:
+                if not obj.try_to_move(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+                    self.set_x(old_x)
+                    break
+
+        vertical_direction = 0
         if keys[K_s]:
-            self.set_y(self._y + self.speed * (time_delta/1000))
-        if pygame.sprite.spritecollideany(self, objects):
-            self.set_y(old_y)
+            vertical_direction -= 1
+        if keys[K_w]:
+            vertical_direction += 1
+        old_y = self.get_y()
+
+        self.set_y(self._y - self.speed * (time_delta/1000) * vertical_direction)
+
+        for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
+            if obj.type != 'rock':
+                self.set_y(old_y)
+                break
+            else:
+                if not obj.try_to_move(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+                    self.set_y(old_y)
+                    break
 
     def check_if_hit_border(self) -> bool:
         if self._x < 0 or self._y < 0 or (self._x + self._width) > (16*16) or (self._y + self._height) > (16*16):

@@ -1,0 +1,2 @@
+class Spike:
+    pass
