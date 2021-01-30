@@ -52,6 +52,9 @@ class Player(GameObject):
                 if inventory.checkKey():
                     obj.kill()
                     print('open')
+
+            elif obj.type == 'ghost':
+                print('ghost!!!')
             else:
                 self.set_x(old_x)
                 break
@@ -77,6 +80,8 @@ class Player(GameObject):
                 # Collect key
                 obj.kill()
                 print('open')
+            elif obj.type == 'ghost':
+                print('ghost!!!')
             else:
                 self.set_y(old_y)
                 break

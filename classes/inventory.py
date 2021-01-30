@@ -69,13 +69,15 @@ class Inventory(GameObject):
             elif o.title == "key_2":
                 key2 = True
 
+        print(key1, key2)
+
         if key2 and key1:
             for o in self.items:
                 if o.title == "key_1" or o.title == "key_2":
                     self.items.remove(o)
-
-        self.add_item(Item("key_unit", "key", pygame.image.load("img/key_1.png").convert_alpha(),  0, 0, 16, 16))
-        self.itemsSize()
+                    
+            self.add_item(Item("key_unit", "key", pygame.image.load("img/key_1.png").convert_alpha(),  0, 0, 16, 16))
+            self.itemsSize()
 
     def itemsSize(self):
         count = 0

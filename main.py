@@ -132,6 +132,7 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
     """
 
     objects = pygame.sprite.Group()
+    enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
 
 
@@ -141,6 +142,9 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
         else:
             teleports.add(o)
 
+    for obj in objects:
+        if obj.type == 'ghost':
+            enemies.add(obj)
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
@@ -175,6 +179,7 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
         objects.update(time_delta)
         teleports.update(time_delta)
         player.update(time_delta, objects)
+        enemies.update(time_delta)
         objects.draw(board)
         teleports.draw(board)
         player_group.draw(board)
