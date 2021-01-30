@@ -13,3 +13,9 @@ class Button(GameObject):
         if Button.button_sprite is None:
             Button.button_sprite = pygame.image.load('img/button.png').convert_alpha()
         super().__init__(x, y, 16, 16, Button.button_sprite, 'button')
+
+    def is_pushed(self):
+        for x in  pygame.sprite.spritecollide(self, GameObject.all_objects, dokill=False):
+            if x.type == 'rock':
+                return True
+        return False

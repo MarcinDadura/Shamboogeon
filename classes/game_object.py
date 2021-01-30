@@ -54,7 +54,7 @@ class GameObject(Sprite):
             if x.type == 'player':
                 cls.all_objects.add(x)
 
-    def set_x(self, x:float):
+    def set_x(self, x: float):
         # Change spirte position
         scale = GameState.get_instance().get_board_scale()
         self.rect = Rect(x * scale, self._y * scale, self._width * scale, self._height * scale)
@@ -63,11 +63,23 @@ class GameObject(Sprite):
     def get_x(self) -> int:
         return self._x
 
-    def set_y(self, y:float):
-        # Change spirte position
+    def set_y(self, y: float):
+        # Change sprite position
         scale = GameState.get_instance().get_board_scale()
         self.rect = Rect(self._x * scale, y * scale, self._width * scale, self._height * scale)
         self._y = y
 
     def get_y(self) -> int:
         return self._y
+
+    def set_sprite(self, sprite):
+        self.image = sprite
+        self.set_x(self.get_x())
+        self.set_y(self.get_y())
+        self.image = pygame.transform.scale(self.image, (self._width, self._height))
+        self.image = pygame.transform.scale(self.image,
+                                           (
+                                               self._width * GameState.get_instance().get_board_scale(),
+                                               self._height * GameState.get_instance().get_board_scale(),
+                                           )
+                                           )
