@@ -22,7 +22,9 @@ class Monster(GameObject):
         super().__init__(x, y, 16, 16, Monster.sprite, obj_name)
 
     def update(self, time_delta, objects=None):
-        self.set_sprite(pygame.image.load('img/{}_{}.png'.format(self.name, self.count)).convert_alpha())
+        if self.count % 20 == 0:
+            self.set_sprite(pygame.image.load('img/{}_{}.png'.format(self.name, self.count // 20)).convert_alpha())
+
         player = Player.get_instance()
         p_x = player.get_x()
         p_y = player.get_y()
@@ -41,4 +43,4 @@ class Monster(GameObject):
 
         self.set_x(self._x + self.speed * (time_delta/1000) * horizontal_direction)
         self.set_y(self._y + self.speed * (time_delta/1000) * vertical_direction)
-        self.count = self.count + 1 if self.count < self.max else 0
+        self.count = self.count + 1 if self.count < self.max*20 else 0

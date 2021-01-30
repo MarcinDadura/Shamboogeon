@@ -1,7 +1,8 @@
 from classes.game_object import GameObject
 from classes.player import Player
 import pygame
-
+from classes.monster import Monster
+from classes.ghost import Ghost
 
 class Arrow(GameObject):
     """It's just a arrow"""
@@ -35,7 +36,7 @@ class Arrow(GameObject):
         self.set_y(self._y + self.speed * (time_delta/1000) * self.vertical_direction)
         if objects:
             for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-                if obj.type == 'ghost':
+                if isinstance(obj, Ghost) or isinstance(obj, Monster):
                     if self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
                         obj.kill()
