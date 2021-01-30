@@ -29,6 +29,9 @@ def game(screen):
     """Load levels"""
 
     game_state = GameState.get_instance()
+    inventory = Inventory.get_instance()
+    inventory_board = pygame.Surface(inventory.get_size())
+
     game_state.reset()
 
     room_manager = RoomManager.get_instance()
@@ -41,7 +44,7 @@ def game(screen):
 
     while(not game_state.exit):
         objects_list = room_manager.get_objects()
-        old_room_obj = room(screen, board, objects_list)
+        old_room_obj = room(screen, board, objects_list, inventory, inventory_board)
         player = Player.get_instance()
         if player.get_y() < 0:
             room_manager.move_up()
@@ -52,14 +55,14 @@ def game(screen):
         elif player.get_x() + player._width > 16 * 16:
             room_manager.move_right()
         if old_room_obj is not None:
-            play_room_animation(old_room_obj, room_manager.get_objects(), board)
+            play_room_animation(old_room_obj, room_manager.get_objects(), board, inventory, inventory_board)
         GameObject.clear_objects_list()
         if game_state.next_lvl:
             game_state.next_lvl = False
             room_manager.set_lvl(room_manager.get_lvl() + 1)
 
 
-def play_room_animation(old_objects, new_objects, board):
+def play_room_animation(old_objects, new_objects, board, inventory: Inventory, inventory_board):
     speed = 150
     player = Player.get_instance()
     horizontal = True
@@ -76,18 +79,26 @@ def play_room_animation(old_objects, new_objects, board):
 
     if horizontal:
         for x in new_objects:
-            x.set_x(x.get_x() - 16 * 16 * direction)
+            if not x.cary:
+                x.set_x(x.get_x() - 16 * 16 * direction)
     if not horizontal:
         for x in new_objects:
-            x.set_y(x.get_y() - 16 * 16 * direction)
+            if not x.cary:
+                x.set_y(x.get_y() - 16 * 16 * direction)
 
     objects_list = new_objects
     new_objects = pygame.sprite.Group()
+    inventory_g = pygame.sprite.Group()
+    inventory_bar = pygame.sprite.Group()
+
     for o in objects_list:
-        new_objects.add(o)
+        if not o.cary:
+            new_objects.add(o)
+
 
     player_group = pygame.sprite.Group()
     player_group.add(player)
+    inventory_bar.add(inventory)
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
@@ -95,6 +106,14 @@ def play_room_animation(old_objects, new_objects, board):
     move = 0
 
     while True:
+
+        for o in inventory.get_items():
+            inventory_g.add(o)
+
+        inventory_board.fill((0, 0, 0))
+        inventory_bar.draw(inventory_board)
+        inventory_g.draw(inventory_board)
+
         time_delta = clock.tick(120)
         move += speed * (time_delta/1000) * game_state.get_board_scale()
         screen.fill((0, 0, 0))
@@ -104,18 +123,24 @@ def play_room_animation(old_objects, new_objects, board):
         old_objects.draw(board)
         player_group.draw(board)
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        screen.blit(inventory_board, (0, 0))
         pygame.display.flip()
+
         if horizontal:
             for x in old_objects:
-                x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+                if not x.cary:
+                    x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
             for x in new_objects:
-                x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+                if not x.cary:
+                    x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
             player.set_x(player.get_x() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
         else:
             for x in old_objects:
-                x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+                if not x.cary:
+                    x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
             for x in new_objects:
-                x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
+                if not x.cary:
+                    x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
             player.set_y(player.get_y() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
 
         if move >= 16 * 16:
@@ -126,7 +151,7 @@ def play_room_animation(old_objects, new_objects, board):
             return
 
 
-def room(screen, board, objects_list: list) -> pygame.sprite.Group:
+def room(screen, board, objects_list: list, inventory: Inventory, inventory_board) -> pygame.sprite.Group:
     """
     Game loop
     Return objects to play animation 
@@ -140,8 +165,10 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
     for o in objects_list:
         if not isinstance(o, Teleport):
             objects.add(o)
-        else:
+        elif not o.cary:
             teleports.add(o)
+        elif o.cary:
+            print(o.cary)
 
     for obj in objects:
         if obj.type in ('ghost', 'rock'):
@@ -154,18 +181,15 @@ def room(screen, board, objects_list: list) -> pygame.sprite.Group:
     player_group = pygame.sprite.Group()
     player_group.add(player)
 
+    inventory_g = pygame.sprite.Group()
+    inventory_bar = pygame.sprite.Group()
+    inventory_bar.add(inventory)
+
     # Make sure if scale of the board is correct
     board = calculate_scale(screen.get_size(), board, True)
 
     running = True
     while running:
-
-        inventory = Inventory.get_instance()
-        inventory_board = pygame.Surface(inventory.get_size())
-
-        inventory_g = pygame.sprite.Group()
-        inventory_bar = pygame.sprite.Group()
-        inventory_bar.add(inventory)
 
         for o in inventory.get_items():
             # print(o)

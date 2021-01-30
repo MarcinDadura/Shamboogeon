@@ -14,7 +14,7 @@ class Inventory(GameObject):
         self.sprite = pygame.image.load('img/inventory_up.png').convert_alpha()
         super().__init__(0, 0, 48, 16, self.sprite)
         self.items = []
-        self.size = (48, 1024)
+        self.size = (96, 1024)
         self.x = 0
         self.y = 0
         self.i_y = 16
@@ -32,13 +32,13 @@ class Inventory(GameObject):
         return self.items
 
     def add_item(self, item: Item):
-        x = 0 if self.count % 2 == 0 else 16
-        self.i_y = self.i_y + 16 if self.count != 0 and self.count % 2 == 0 else self.i_y
-        item.set_x(x)
-        item.set_y(self.i_y)
-
+        # x = 0 if self.count % 2 == 0 else 16
+        # self.i_y = self.i_y + 16 if self.count != 0 and self.count % 2 == 0 else self.i_y
+        # item.set_x(x)
+        # item.set_y(self.i_y)
         self.items.append(item)
-        self.count += 1
+        self.itemsSize()
+        # self.count += 1
 
     def remove_item(self, item: Item):
         self.items.remove(item)
@@ -76,10 +76,9 @@ class Inventory(GameObject):
 
             self.items = items
 
-            self.add_item(Item("key_unit", "key", pygame.image.load("img/klucz.png").convert_alpha(),  0, 0, 16, 16))
+            self.add_item(Item("key_unit", "key", pygame.image.load("img/klucz.png").convert_alpha(),  0, 0))
 
             self.itemsSize()
-            print(self.items)
 
     def itemsSize(self):
         count = 0
