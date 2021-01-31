@@ -82,8 +82,11 @@ class Player(GameObject):
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
+                if inventory.check_engine():
+                    print("Engine !!!")
                 obj.cary = True
-                inventory.unitKey()
+                if obj.part in (1, 2):
+                    inventory.unitKey()
                 obj.kill()
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
@@ -132,6 +135,9 @@ class Player(GameObject):
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
+                if inventory.check_engine():
+                    print("Engine !!!")
+
                 obj.cary = True
                 inventory.unitKey()
                 obj.kill()
