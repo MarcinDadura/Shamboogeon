@@ -11,6 +11,7 @@ class GameState:
         self.next_lvl = False
         self.boss_hp = 8
         self.resp = []
+        self.sound = None
         GameState._instance = self
 
     @classmethod
