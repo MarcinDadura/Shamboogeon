@@ -11,6 +11,12 @@ from classes.inventory import Inventory
 from classes.background import Background
 from classes.rainbow_puzzle1 import Rainbow_1
 from classes.rainbow_puzzle2 import Rainbow_2
+from classes.button_rainbow1 import Button_rainbow1
+from classes.button_rainbow2 import Button_rainbow2
+from classes.trellis_rainbow1 import Trellis_rainbow1
+from classes.trellis_rainbow2 import Trellis_rainbow2
+
+
 import pygame
 
 class RoomManager:
@@ -179,9 +185,28 @@ class RoomManager:
                     objects.append(
                         Rainbow_2(x * 16, y * 16)
                     )
+                elif tile == '+':
+                    objects.append(
+                        Button_rainbow1(x * 16, y * 16)
+                    )
+
+                elif tile == '-':
+                    objects.append(
+                        Button_rainbow2(x * 16, y * 16)
+                    )
+
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
                     )
+                elif tile == '?':
+                    objects.append(
+                        Trellis_rainbow1(x * 16, y * 16)
+                    )
+                elif tile == '/':
+                    objects.append(
+                        Trellis_rainbow2(x * 16, y * 16)
+                    )
+
 
         return objects
