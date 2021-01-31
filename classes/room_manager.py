@@ -189,9 +189,15 @@ class RoomManager:
                     objects.append(
                         Saw(x * 16, y * 16)
                     )
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track.png').convert_alpha())
+                    )
                 elif tile == '|':
                     objects.append(
                         Saw(x * 16, y * 16, False)
+                    )
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
                     )
                 elif tile == '=':
                     objects.append(
@@ -200,5 +206,13 @@ class RoomManager:
                 elif tile == 'y':
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
+                    )
+                elif tile == '*':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track.png').convert_alpha())
+                    )
+                elif tile == '@':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
                     )
         return objects
