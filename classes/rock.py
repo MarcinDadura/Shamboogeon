@@ -39,7 +39,7 @@ class Rock(GameObject):
         if vertiacal < 0:
             self.direction[1] = -1
         for x in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            if x.type != 'player' and x is not self:
+            if x.type == 'wall':
                 self.set_x(old_x)
                 self.set_y(old_y)
                 return False
@@ -75,7 +75,7 @@ class Rock(GameObject):
                             x.kill()
 
 
-            elif obj.type != 'player' and obj is not self:
+            elif obj.type == 'wall':
                 self.set_x(old_x)
                 self.set_y(old_y)
                 self.direction = [0, 0]
