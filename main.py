@@ -35,6 +35,7 @@ hearths_board = pygame.Surface((48, 16))
 welcome = pygame.image.load('img/history1.png')
 lost = pygame.image.load('img/history2.png')
 lost2 = pygame.image.load('img/history3.png')
+win = pygame.image.load('img/history4.png')
 lost_s = pygame.mixer.Sound('sounds/game_over.ogg')
 game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
 lvl = 1
@@ -147,7 +148,10 @@ def game(screen):
     counter = 0
     while run:
         counter += 1
-        board, lost_2 = calculate_scale(screen.get_size(), board, lost, force=True)
+        if Player.get_instance().hp == 0:
+            board, lost_2 = calculate_scale(screen.get_size(), board, lost, force=True)
+        else:
+            board, lost_2 = calculate_scale(screen.get_size(), board, win, force=True)
         board.blit(lost_2, (0, 0))
         screen.fill((0, 0, 0))
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
@@ -426,7 +430,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             Saw.stop_saws()
             game_state.next_lvl = True
             running = False
-        if player.hp == 0:
+        if player.hp == 0 or player.hp == -1:
             game_sound.stop()
             lost_s.play()
             Saw.stop_saws()
