@@ -18,6 +18,7 @@ from classes.button_rainbow1 import Button_rainbow1
 from classes.button_rainbow2 import Button_rainbow2
 from classes.trellis_rainbow1 import Trellis_rainbow1
 from classes.trellis_rainbow2 import Trellis_rainbow2
+from classes.game_state import GameState
 
 
 import pygame
@@ -31,7 +32,6 @@ class RoomManager:
         self._y = 10
         self.rooms = None
         RoomManager._instance = self
-
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
@@ -74,6 +74,7 @@ class RoomManager:
         self._y -= 1
 
     def get_objects(self) -> list:
+        game_state = GameState.get_instance()
         """Return all objects in current room"""
         if self.rooms[self._y][self._x] is None:
             self.load_room(self._x, self._y)
@@ -235,6 +236,7 @@ class RoomManager:
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
                     )
+                    game_state.sound = pygame.mixer.Sound('sounds/boss_t.ogg')
                 elif tile == '*':
                     objects.append(
                         Background(x * 16, y * 16, pygame.image.load('img/saw_track.png').convert_alpha())

@@ -35,6 +35,8 @@ hearths_board = pygame.Surface((48, 16))
 welcome = pygame.image.load('img/history1.png')
 lost = pygame.image.load('img/history2.png')
 lost2 = pygame.image.load('img/history3.png')
+lost_s = pygame.mixer.Sound('sounds/game_over.ogg')
+game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
 lvl = 1
 
 try:
@@ -51,7 +53,7 @@ room_manager = RoomManager.get_instance()
 
 def game(screen):
     """Load levels"""
-    global welcome, lost
+    global welcome, lost, game_sound
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -270,11 +272,18 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
             return
 
 def room(screen, board, objects_list: list, inventory: Inventory, inventory_board) -> pygame.sprite.Group:
-    """
-    Game loop
-    Return objects to play animation 
-    """
-    global hearth, empty_heart, hearths_board
+
+    global hearth, empty_heart, hearths_board, game_sound
+
+    game_s = GameState.get_instance()
+    game_s = game_s.sound
+
+    if game_s != None:
+        game_sound.stop()
+        game_sound = game_s
+        game_sound.play()
+
+
     objects = pygame.sprite.Group()
     monsters = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
@@ -418,6 +427,8 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             game_state.next_lvl = True
             running = False
         if player.hp == 0:
+            game_sound.stop()
+            lost_s.play()
             Saw.stop_saws()
             running = False
             game_state.exit = True

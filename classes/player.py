@@ -46,6 +46,8 @@ class Player(GameObject):
         return False
 
     def update(self, time_delta, objects, enemies=None):
+        p_s = pygame.mixer.Sound('sounds/foot.ogg')
+        p_s.set_volume(0.1)
         self.last_damage += 1
         if self.direction == 0:
             self.set_sprite(Player.player_sprite_right[0])
