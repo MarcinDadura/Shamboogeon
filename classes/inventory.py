@@ -114,3 +114,20 @@ class Inventory(GameObject):
             return True
 
         return False
+
+    def dec_potion(self):
+        c = 0
+        items = []
+        for x in self.items:
+            if x.title != 'hp_potion' or c == 1:
+                items.append(x)
+            if x.title == 'hp_potion':
+                c = 1
+
+        self.items = items
+
+    def has_potion(self):
+        for x in self.items:
+            if x.title == 'hp_potion':
+                return True
+        return False

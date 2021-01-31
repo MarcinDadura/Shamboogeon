@@ -5,6 +5,7 @@ from classes.rock import Rock
 from classes.key import Key
 from classes.ghost import Ghost
 from classes.button import Button
+from classes.item import Item
 from classes.trellis import Trellis
 from classes.monster import Monster
 from classes.inventory import Inventory
@@ -179,5 +180,9 @@ class RoomManager:
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
+                    )
+                elif tile == 'v':
+                    objects.append(
+                        Item("hp_potion", "hp_potion", pygame.image.load('img/hp_potion.png').convert_alpha(), x*16, y*16)
                     )
         return objects
