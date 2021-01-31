@@ -9,6 +9,7 @@ class GameState:
         self.board_scale = 1
         self.exit = False
         self.next_lvl = False
+        self.boss_hp = 8
         GameState._instance = self
 
     @classmethod
