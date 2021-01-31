@@ -124,7 +124,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
     if RoomManager.get_instance().get_lvl() == 1:
         floor = pygame.image.load('img/no_floor.png')
     else:
-        floor = pygame.image.load('img/candy_floor.png')
+        floor = pygame.image.load('img/no_floor.png')
     board, floor = calculate_scale(screen.get_size(), board, floor, force=True)
     move = 0
 
@@ -195,7 +195,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     if RoomManager.get_instance().get_lvl() == 1:
         floor = pygame.image.load('img/no_floor.png')
     else:
-        floor = pygame.image.load('img/candy_floor.png')
+        floor = pygame.image.load('img/no_floor.png')
 
     for o in objects_list:
         if not isinstance(o, Teleport):
