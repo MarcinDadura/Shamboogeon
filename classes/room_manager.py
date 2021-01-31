@@ -7,6 +7,7 @@ from classes.ghost import Ghost
 from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
+from classes.saw import Saw
 from classes.inventory import Inventory
 from classes.background import Background
 import pygame
@@ -171,5 +172,9 @@ class RoomManager:
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
+                    )
+                elif tile == 's':
+                    objects.append(
+                        Saw(x * 16, y * 16)
                     )
         return objects

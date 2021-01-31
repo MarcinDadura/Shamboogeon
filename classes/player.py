@@ -88,8 +88,7 @@ class Player(GameObject):
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
                 obj.kill()
-
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_x(old_x)
@@ -141,7 +140,7 @@ class Player(GameObject):
                 obj.sound = obj.sound.play()
                 obj.kill()
 
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_y(old_y)

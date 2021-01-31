@@ -265,7 +265,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             pass
 
     for obj in objects:
-        if obj.type in ('ghost', 'rock'):
+        if obj.type in ('ghost', 'rock', 'saw'):
             enemies.add(obj)
 
     for o in monsters:
