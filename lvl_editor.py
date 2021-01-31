@@ -67,10 +67,10 @@ objects = {
     'j': pygame.transform.scale(pygame.image.load('img/dungeon_spiders_web.png'), (tile_size, tile_size)),
     'e': pygame.transform.scale(pygame.image.load('img/dungeon_wall_broken.png'), (tile_size, tile_size)),
     'd': pygame.transform.scale(pygame.image.load('img/demon_0.png'), (tile_size, tile_size)),
-
     't': pygame.transform.scale(pygame.image.load('img/krata.png'), (tile_size, tile_size)),
     'z': pygame.transform.scale(pygame.image.load('img/dungeon_background2.png'), (tile_size, tile_size)),
-
+    'h': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
+    'm': pygame.transform.scale(pygame.image.load('img/candy_wall.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]
