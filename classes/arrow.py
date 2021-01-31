@@ -4,6 +4,8 @@ from classes.inventory import Inventory
 import pygame
 from classes.monster import Monster
 from classes.ghost import Ghost
+from classes.item import Item
+from classes.inventory import Inventory
 
 class Arrow(GameObject):
     """It's just a arrow"""
@@ -64,5 +66,10 @@ class Arrow(GameObject):
         if Inventory.get_instance().get_arrow():
             player = Player.get_instance()
             arrow = Arrow(player.get_x() + (16 * horizontal), player.get_y() + (16 * vertical), -horizontal, vertical)
+            for obj in  pygame.sprite.spritecollide(arrow, GameObject.all_objects, dokill=False):
+                if obj.type == 'wall':
+                    item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+                    Inventory.get_instance().add_item(item)
+                    return None
             self.luk_sound = Arrow.luk_sound.play()
             return arrow
