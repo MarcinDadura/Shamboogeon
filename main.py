@@ -244,10 +244,11 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         board.fill((0, 255, 0))
         if floor:
             board.blit(floor, (0, 0))
-        objects.update(time_delta)
         teleports.update(time_delta)
         player.update(time_delta, objects, enemies)
         enemies.update(time_delta, objects)
+        objects.update(time_delta)
+
         objects.draw(board)
         enemies.draw(board)
         teleports.draw(board)
