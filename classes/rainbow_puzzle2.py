@@ -37,6 +37,12 @@ class Rainbow_2(GameObject):
                 self.direction = [0, 0]
 
 
+            if x.type == 'rainbow2' and x is not self:
+                self.set_x(old_x)
+                self.set_y(old_y)
+                self.direction = [0, 0]
+
+
             if x.type == 'button_rainbow1':
                 self.set_x(old_x)
                 self.set_y(old_y)
@@ -57,7 +63,7 @@ class Rainbow_2(GameObject):
 
                 if open_the_trellis:
                     for x in GameObject.all_objects:
-                        if   x.type=='trellis_rainbow2':
+                        if x.type == 'trellis_rainbow2':
                             x.kill()
 
     def update(self, time_delta, objects=None):

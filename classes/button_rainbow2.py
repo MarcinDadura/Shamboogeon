@@ -11,7 +11,7 @@ class Button_rainbow2(GameObject):
         # Load sprite only once
         self.speed = 10
         if Button_rainbow2.button_sprite is None:
-            Button_rainbow2.button_sprite = pygame.image.load('img/button.png').convert_alpha()
+            Button_rainbow2.button_sprite = pygame.image.load('img/button2.png').convert_alpha()
         super().__init__(x, y, 16, 16, Button_rainbow2.button_sprite, 'button_rainbow2')
 
     def is_pushed(self):

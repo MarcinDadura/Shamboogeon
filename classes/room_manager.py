@@ -160,17 +160,17 @@ class RoomManager:
                     )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 10, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 20, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
                     )
 
                 elif tile == 'n':
                     objects.append(
-                        Monster(x * 16, y * 16, 12, 'sounds/demon.ogg', 'img/candy_mob_0.png', 'candy_mob', 0)
+                        Monster(x * 16, y * 16, 15, 'sounds/demon.ogg', 'img/candy_mob_0.png', 'candy_mob', 0)
                     )
 
                 elif tile == 'o':
                     objects.append(
-                        Monster(x * 16, y * 16, 10, 'sounds/demon.ogg', 'img/rainbow_mob_0.png', 'rainbow_mob', 2)
+                        Monster(x * 16, y * 16, 20, 'sounds/demon.ogg', 'img/rainbow_mob_0.png', 'rainbow_mob', 2)
                     )
                 elif tile == 'z':
                     objects.append(
@@ -234,7 +234,7 @@ class RoomManager:
                     )
                 elif tile == 'y':
                     objects.append(
-                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
+                        Monster(x * 16, y * 16, 12, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
                     )
                     game_state.sound = pygame.mixer.Sound('sounds/boss_t.ogg')
                 elif tile == '*':

@@ -94,7 +94,7 @@ objects = {
     'x': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
     '&': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall2.png'), (tile_size, tile_size)),
     '+': pygame.transform.scale(pygame.image.load('img/button.png'), (tile_size, tile_size)),
-    '-': pygame.transform.scale(pygame.image.load('img/button.png'), (tile_size, tile_size)),
+    '-': pygame.transform.scale(pygame.image.load('img/button2.png'), (tile_size, tile_size)),
     '?': pygame.transform.scale(pygame.image.load('img/candy_trelis.png'), (tile_size, tile_size)),
     '/': pygame.transform.scale(pygame.image.load('img/candy_trelis_horizontal.png'), (tile_size, tile_size)),
 }

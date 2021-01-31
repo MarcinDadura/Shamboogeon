@@ -76,7 +76,7 @@ class Player(GameObject):
 
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
             inventory = Inventory.get_instance()
-            if obj.type == 'rocket':
+            if obj.type == 'rocket' and inventory.check_engine():
                 self.hp = -1
             elif obj.type == 'rock':
                 if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
@@ -142,7 +142,9 @@ class Player(GameObject):
 
         inventory = Inventory.get_instance()
         for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type == 'rock':
+            if obj.type == 'rocket' and inventory.check_engine():
+                self.hp = -1
+            elif obj.type == 'rock':
                 if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break

@@ -14,7 +14,7 @@ class Saw(GameObject):
         # Load sprite only once
         self.horizontal = horizontal
         self.direction = 1
-        self.speed = 50
+        self.speed = 100
         if Saw.saw_sprite is None:
             Saw.saw_sprite = pygame.image.load('img/saw.png').convert_alpha()
             Saw.saw_v_sprite = pygame.image.load('img/saw_v.png').convert_alpha()

@@ -35,6 +35,11 @@ class Rainbow_1(GameObject):
                 self.set_y(old_y)
                 self.direction = [0, 0]
 
+            if x.type == 'rainbow1' and x is not self:
+                self.set_x(old_x)
+                self.set_y(old_y)
+                self.direction = [0, 0]
+
             if x.type == 'rainbow2':
                 self.set_x(old_x)
                 self.set_y(old_y)
