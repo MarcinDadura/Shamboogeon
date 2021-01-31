@@ -9,6 +9,7 @@ from classes.item import Item
 from classes.trellis import Trellis
 from classes.monster import Monster
 from classes.saw import Saw
+from classes.resp import Resp
 from classes.inventory import Inventory
 from classes.background import Background
 import pygame
@@ -214,5 +215,9 @@ class RoomManager:
                 elif tile == '@':
                     objects.append(
                         Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
+                    )
+                elif tile == '`':
+                    objects.append(
+                        Resp(x * 16, y * 16)
                     )
         return objects

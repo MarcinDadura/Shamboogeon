@@ -83,6 +83,7 @@ objects = {
     'y': pygame.transform.scale(pygame.image.load('img/dr_pehape_0.png'), (tile_size, tile_size)),
     '*': pygame.transform.scale(pygame.image.load('img/saw_track.png'), (tile_size, tile_size)),
     '@': pygame.transform.scale(pygame.image.load('img/saw_track_v.png'), (tile_size, tile_size)),
+    '`': pygame.transform.scale(pygame.image.load('img/skull.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]

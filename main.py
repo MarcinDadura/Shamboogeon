@@ -240,7 +240,6 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
                 player.set_y(player.get_y() - direction)
             return
 
-
 def room(screen, board, objects_list: list, inventory: Inventory, inventory_board) -> pygame.sprite.Group:
     """
     Game loop
@@ -297,6 +296,11 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
     running = True
     while running:
+    
+        for i in game_state.resp:
+            enemies.add(i)
+            all_objects.add(i)
+            game_state.resp.remove(i)
 
         hearths_board.fill((0, 0, 0))
         inventory_g = pygame.sprite.Group()
@@ -388,7 +392,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             Saw.stop_saws()
             running = False
             game_state.exit = True
-
+        
 
 def calculate_scale(size, board, floor=None, force=False):
     global hearth, empty_heart, hearths_board

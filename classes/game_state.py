@@ -10,6 +10,7 @@ class GameState:
         self.exit = False
         self.next_lvl = False
         self.boss_hp = 8
+        self.resp = []
         GameState._instance = self
 
     @classmethod
