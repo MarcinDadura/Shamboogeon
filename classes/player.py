@@ -38,7 +38,6 @@ class Player(GameObject):
         return cls._instance
 
     def take_damage(self) -> bool:
-        print(self.hp)
         if self.last_damage > 300:
             self.last_damage = 0
             self.hp -= 1
@@ -83,7 +82,7 @@ class Player(GameObject):
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
                 if inventory.check_engine():
-                    print("Engine !!!")
+                    pass
                 obj.cary = True
                 if obj.part in (1, 2):
                     inventory.unitKey()
@@ -94,8 +93,7 @@ class Player(GameObject):
             elif obj.type == 'item':
                 inventory.add_item(obj)
                 obj.kill()
-
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_x(old_x)
@@ -140,7 +138,7 @@ class Player(GameObject):
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
                 if inventory.check_engine():
-                    print("Engine !!!")
+                    pass
 
                 obj.cary = True
                 inventory.unitKey()
@@ -153,7 +151,7 @@ class Player(GameObject):
                 obj.sound = obj.sound.play()
                 obj.kill()
 
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_y(old_y)

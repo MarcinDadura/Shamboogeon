@@ -8,6 +8,7 @@ from classes.button import Button
 from classes.item import Item
 from classes.trellis import Trellis
 from classes.monster import Monster
+from classes.saw import Saw
 from classes.inventory import Inventory
 from classes.background import Background
 import pygame
@@ -182,6 +183,14 @@ class RoomManager:
                         Background(x * 16, y * 16)
                     )
                 elif tile == 'v':
+                    objects.append(
+                        Saw(x * 16, y * 16)
+                    )
+                elif tile == '|':
+                    objects.append(
+                        Saw(x * 16, y * 16, False)
+                    )
+                elif tile == '=':
                     objects.append(
                         Item("hp_potion", "hp_potion", pygame.image.load('img/hp_potion.png').convert_alpha(), x*16, y*16)
                     )

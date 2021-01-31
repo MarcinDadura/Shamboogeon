@@ -47,7 +47,7 @@ class Arrow(GameObject):
                         obj.kill()
                         self.horizontal_direction = 0
                         self.vertical_direction = 0
-                elif obj.type == 'wall' or obj.type == 'door':
+                elif obj.type == 'wall' or obj.type == 'door' or obj.type == 'rock':
                     self.horizontal_direction = 0
                     self.vertical_direction = 0
         if self.get_y() <= 0 or self.get_y() >= 256  or self._width <= 0 or self._width >= 256:
