@@ -89,9 +89,7 @@ class Player(GameObject):
                 obj.sound = obj.sound.play()
                 obj.kill()
 
-            elif obj.type == 'ghost':
-                self.take_damage()
-            elif obj.type == 'monster':
+            elif obj.type in ('ghost', 'monster'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_x(old_x)
@@ -143,9 +141,7 @@ class Player(GameObject):
                 obj.sound = obj.sound.play()
                 obj.kill()
 
-            elif obj.type == 'ghost':
-                self.take_damage()
-            elif obj.type == 'monster':
+            elif obj.type in ('ghost', 'monster'):
                 self.take_damage()
             elif not obj.type == "background":
                 self.set_y(old_y)
