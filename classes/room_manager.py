@@ -5,8 +5,10 @@ from classes.rock import Rock
 from classes.key import Key
 from classes.ghost import Ghost
 from classes.button import Button
+from classes.item import Item
 from classes.trellis import Trellis
 from classes.monster import Monster
+from classes.saw import Saw
 from classes.inventory import Inventory
 from classes.background import Background
 from classes.rainbow_puzzle1 import Rainbow_1
@@ -36,6 +38,9 @@ class RoomManager:
         self._y = 12
         # Clear rooms
         self.rooms = [[None for _ in range(21)] for _ in range(21)]
+        if self.lvl == 2:
+            self._x = 10
+            self._y = 15
 
     def get_lvl(self):
         return self.lvl
@@ -147,7 +152,7 @@ class RoomManager:
                     )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 10, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
                     )
 
                 elif tile == 'n':
@@ -179,9 +184,70 @@ class RoomManager:
                     objects.append(
                         Rainbow_2(x * 16, y * 16)
                     )
+                elif tile == 's':
+                    objects.append(
+                        Key(x*16, y*16, 3)
+                    )
+                elif tile == 'u':
+                    objects.append(
+                        Key(x*16, y*16, 4)
+                    )
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
                     )
-
+                elif tile == 'v':
+                    objects.append(
+                        Saw(x * 16, y * 16)
+                    )
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track.png').convert_alpha())
+                    )
+                elif tile == '|':
+                    objects.append(
+                        Saw(x * 16, y * 16, False)
+                    )
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
+                    )
+                elif tile == '=':
+                    objects.append(
+                        Item("hp_potion", "hp_potion", pygame.image.load('img/hp_potion.png').convert_alpha(), x*16, y*16)
+                    )
+                elif tile == 'y':
+                    objects.append(
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
+                    )
+                elif tile == '*':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track.png').convert_alpha())
+                    )
+                elif tile == '@':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
+                    )
+                elif tile == ',':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece1.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '<':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece2.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '.':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece3.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '>':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece4.png').convert_alpha(), "rocket")
+                    )
+                elif tile == ';':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece5.png').convert_alpha(), "rocket")
+                    )
+                elif tile == ':':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece6.png').convert_alpha(), "rocket")
+                    )
         return objects

@@ -10,7 +10,8 @@ from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
 from classes.arrow import Arrow
-
+from classes.saw import Saw
+import sys
 
 
 # Initialize pygame
@@ -32,6 +33,13 @@ empty_heart = pygame.image.load('img/heart_empty.png')
 hearths_board = pygame.Surface((48, 16))
 
 welcome = pygame.image.load('img/history1.png')
+lost = pygame.image.load('img/history2.png')
+lvl = 1
+
+try:
+    lvl = sys.argv[1]
+except IndexError:
+    lvl = 1
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -42,7 +50,7 @@ room_manager = RoomManager.get_instance()
 
 def game(screen):
     """Load levels"""
-    global welcome
+    global welcome, lost
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -55,7 +63,7 @@ def game(screen):
 
     game_state.reset()
 
-    room_manager.set_lvl(1)
+    room_manager.set_lvl(lvl)
 
     """Sound"""
 
@@ -70,15 +78,18 @@ def game(screen):
 
 
     run = True
+    counter = 0
     while run:
+        counter += 1
         board, welcome_2 = calculate_scale(screen.get_size(), board, welcome, force=True)
         board.blit(welcome_2, (0, 0))
         screen.fill((0, 0, 0))
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         pygame.display.flip()
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and counter > 300:
                 run = False
+
 
     player = Player.get_instance()
     player.set_x(128)
@@ -107,8 +118,22 @@ def game(screen):
             game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
             game_sound.play(-1)
             game_sound.set_volume(0.15)
-            print('chuj2')
 
+    run = True
+    counter = 0
+    while run:
+        counter += 1
+        board, lost_2 = calculate_scale(screen.get_size(), board, lost, force=True)
+        board.blit(lost_2, (0, 0))
+        screen.fill((0, 0, 0))
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT and counter > 300:
+                run = False
+            if event.type == pygame.KEYDOWN and counter > 300:
+                run = False
+    exit(0)
 
 def play_room_animation(old_objects, new_objects, board, inventory: Inventory, inventory_board):
     global hearth, empty_heart, hearths_board
@@ -352,13 +377,24 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                     height = 300
                     pygame.display.set_mode((width, height), pygame.RESIZABLE)
                 board, floor = calculate_scale(event.size, board, floor)
+            elif event.type == pygame.KEYUP and event.key == pygame.K_e:
+                if inventory.has_potion():
+                    player.hp = player.hp + 1
+                    inventory.dec_potion()
+
         if player.check_if_hit_border():
             for t in teleports:
                 objects.add(t)
+            Saw.stop_saws()
             return objects
         if pygame.sprite.spritecollideany(player, teleports):
+            Saw.stop_saws()
             game_state.next_lvl = True
             running = False
+        if player.hp == 0:
+            Saw.stop_saws()
+            running = False
+            game_state.exit = True
 
 
 def calculate_scale(size, board, floor=None, force=False):

@@ -38,7 +38,6 @@ class Player(GameObject):
         return cls._instance
 
     def take_damage(self) -> bool:
-        print(self.hp)
         if self.last_damage > 300:
             self.last_damage = 0
             self.hp -= 1
@@ -90,16 +89,21 @@ class Player(GameObject):
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
+                if inventory.check_engine():
+                    pass
                 obj.cary = True
-                inventory.unitKey()
+                if obj.part in (1, 2):
+                    inventory.unitKey()
                 obj.kill()
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
                 obj.kill()
-
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type == 'item':
+                inventory.add_item(obj)
+                obj.kill()
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
-            elif not obj.type == "background":
+            elif not obj.type == "background" and obj.type != 'button':
                 self.set_x(old_x)
                 break
 
@@ -148,23 +152,31 @@ class Player(GameObject):
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
+                if inventory.check_engine():
+                    pass
+
                 obj.cary = True
                 inventory.unitKey()
+                obj.kill()
+            elif obj.type == 'item':
+                inventory.add_item(obj)
                 obj.kill()
 
             elif obj.type == 'door' and inventory.checkKey():
                 obj.sound = obj.sound.play()
                 obj.kill()
 
-            elif obj.type in ('ghost', 'monster'):
+            elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
-            elif not obj.type == "background":
+            elif not obj.type == "background" and obj.type != 'button':
                 self.set_y(old_y)
                 break
 
         if enemies is not None:
             for obj in  pygame.sprite.spritecollide(self, enemies, dokill=False):
                 if obj.type == 'arrow':
+                    if obj.horizontal_direction != 0 or obj.vertical_direction != 0:
+                        self.take_damage()
                     item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
                     inventory.add_item(item)
                     obj.cary = True

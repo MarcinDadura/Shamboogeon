@@ -5,6 +5,7 @@ import pygame
 from classes.monster import Monster
 from classes.ghost import Ghost
 from classes.item import Item
+from classes.game_state import GameState
 from classes.inventory import Inventory
 
 class Arrow(GameObject):
@@ -18,6 +19,7 @@ class Arrow(GameObject):
         self.speed = 150
         self.horizontal_direction = horizontal_direction
         self.vertical_direction = vertical_direction
+        self.st = 0
         Arrow.luk_sound = pygame.mixer.Sound('sounds/łuk_strzał.ogg')
         if Arrow.sprites is None:
             Arrow.sprites = [
@@ -28,27 +30,42 @@ class Arrow(GameObject):
             ]
         if horizontal_direction > 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[0], 'arrow')
+            self.st = 0
         elif horizontal_direction < 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[2], 'arrow')
+            self.st = 2
         elif vertical_direction < 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[1], 'arrow')
+            self.st = 1
         else:
             super().__init__(x, y, 8, 8, Arrow.sprites[3], 'arrow')
+            self.st = 3
         self.set_sprite(self.image)
 
     def update(self, time_delta, objects=None):
+        game_state = GameState.get_instance()
         self.set_x(self._x + self.speed * (time_delta/1000) * -self.horizontal_direction)
         self.set_y(self._y + self.speed * (time_delta/1000) * self.vertical_direction)
         if objects:
             for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
                 if isinstance(obj, Ghost) or isinstance(obj, Monster):
-                    print("XD")
-                    if self.horizontal_direction != 0 or self.vertical_direction != 0:
+                    if isinstance(obj, Monster) and obj.name == 'dr_pehape':
+                            game_state.boss_hp -= 1
+                            if game_state.boss_hp <= 0:
+                                obj.kill()
+                                for i in objects:
+                                    if i.type == 'trellis':
+                                        i.kill()
+                            self.horizontal_direction = -self.horizontal_direction                            
+                            self.vertical_direction = -self.vertical_direction
+                            self.image = Arrow.sprites[self.st+2]
+                            self.set_sprite(self.image)
+                    elif self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
                         obj.kill()
                         self.horizontal_direction = 0
                         self.vertical_direction = 0
-                elif obj.type == 'wall' or obj.type == 'door':
+                elif obj.type == 'wall' or obj.type == 'door' or obj.type == 'rock':
                     self.horizontal_direction = 0
                     self.vertical_direction = 0
         if self.get_y() <= 0 or self.get_y() >= 256  or self._width <= 0 or self._width >= 256:

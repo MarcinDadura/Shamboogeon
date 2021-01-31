@@ -49,6 +49,7 @@ except FileNotFoundError:
 window = pygame.display.set_mode((800, 600))
 
 # All available objects
+
 objects = {
     '#': pygame.transform.scale(pygame.image.load('img/wall.png'), (tile_size, tile_size)),
     '$': pygame.transform.scale(pygame.image.load('img/teleport.png'), (tile_size, tile_size)),
@@ -75,12 +76,27 @@ objects = {
     'o': pygame.transform.scale(pygame.image.load('img/rainbow_mob_0.png'), (tile_size, tile_size)),
     'p': pygame.transform.scale(pygame.image.load('img/krata2.png'), (tile_size, tile_size)),
     'q': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall2.png'), (tile_size, tile_size)),
+    'v': pygame.transform.scale(pygame.image.load('img/saw.png'), (tile_size, tile_size)),
+    '|': pygame.transform.scale(pygame.image.load('img/saw_v.png'), (tile_size, tile_size)),
+    's': pygame.transform.scale(pygame.image.load('img/key_3.png'), (tile_size, tile_size)),
+    'u': pygame.transform.scale(pygame.image.load('img/key_4.png'), (tile_size, tile_size)),
+    '=': pygame.transform.scale(pygame.image.load('img/hp_potion.png'), (tile_size, tile_size)),
+    'y': pygame.transform.scale(pygame.image.load('img/dr_pehape_0.png'), (tile_size, tile_size)),
+    '*': pygame.transform.scale(pygame.image.load('img/saw_track.png'), (tile_size, tile_size)),
+    '@': pygame.transform.scale(pygame.image.load('img/saw_track_v.png'), (tile_size, tile_size)),
+    ',': pygame.transform.scale(pygame.image.load('img/rocket_piece1.png'), (tile_size, tile_size)),
+    '<': pygame.transform.scale(pygame.image.load('img/rocket_piece2.png'), (tile_size, tile_size)),
+    '.': pygame.transform.scale(pygame.image.load('img/rocket_piece3.png'), (tile_size, tile_size)),
+    '>': pygame.transform.scale(pygame.image.load('img/rocket_piece4.png'), (tile_size, tile_size)),
+    ';': pygame.transform.scale(pygame.image.load('img/rocket_piece5.png'), (tile_size, tile_size)),
+    ':': pygame.transform.scale(pygame.image.load('img/rocket_piece6.png'), (tile_size, tile_size)),
     'x': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
     '&': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall2.png'), (tile_size, tile_size)),
 
 }
 
 palete = [sign for sign in objects]
+
 arrow = pygame.transform.scale(pygame.image.load('img/arrow.png'), (tile_size, tile_size))
 
 def get_grid_pos(click_pos):

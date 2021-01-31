@@ -77,9 +77,9 @@ class Inventory(GameObject):
 
     def itemsSize(self):
         count = 0
+        y = 16
         for o in self.items:
             x = 0 if count % 2 == 0 else 20
-            y = 16
             y = y + 16 if count != 0 and count % 2 == 0 else y
             o.set_x(x)
             o.set_y(y)
@@ -92,6 +92,17 @@ class Inventory(GameObject):
 
         return False
 
+    def check_engine(self):
+        l1 = False
+        l2 = False
+        for o in self.items:
+            if o.title == "key_3":
+                l1 = True
+            elif o.title == "key_4":
+                l2 = True
+
+        return l1 and l2
+
     def get_arrow(self):
         arrow = None
         for x in self.items:
@@ -102,4 +113,21 @@ class Inventory(GameObject):
             self.remove_item(arrow)
             return True
 
+        return False
+
+    def dec_potion(self):
+        c = 0
+        items = []
+        for x in self.items:
+            if x.title != 'hp_potion' or c == 1:
+                items.append(x)
+            if x.title == 'hp_potion':
+                c = 1
+
+        self.items = items
+
+    def has_potion(self):
+        for x in self.items:
+            if x.title == 'hp_potion':
+                return True
         return False
