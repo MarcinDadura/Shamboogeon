@@ -75,6 +75,8 @@ objects = {
     'o': pygame.transform.scale(pygame.image.load('img/rainbow_mob_0.png'), (tile_size, tile_size)),
     'p': pygame.transform.scale(pygame.image.load('img/krata2.png'), (tile_size, tile_size)),
     'q': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall2.png'), (tile_size, tile_size)),
+    's': pygame.transform.scale(pygame.image.load('img/key_3.png'), (tile_size, tile_size)),
+    'u': pygame.transform.scale(pygame.image.load('img/key_4.png'), (tile_size, tile_size)),
 
 }
 
