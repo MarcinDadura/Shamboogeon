@@ -127,7 +127,10 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
-    floor = pygame.image.load('img/dungeon_floor.png')
+    if RoomManager.get_instance().get_lvl() == 1:
+        floor = pygame.image.load('img/no_floor.png')
+    else:
+        floor = pygame.image.load('img/candy_floor.png')
     board, floor = calculate_scale(screen.get_size(), board, floor, force=True)
     move = 0
 
@@ -195,7 +198,11 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     monsters = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
-    floor = pygame.image.load('img/dungeon_floor.png')
+    floor = None
+    if RoomManager.get_instance().get_lvl() == 1:
+        floor = pygame.image.load('img/no_floor.png')
+    else:
+        floor = pygame.image.load('img/candy_floor.png')
 
     for o in objects_list:
         if not isinstance(o, Teleport) and not isinstance(o, Monster):
@@ -256,14 +263,15 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         objects.draw(board)
         enemies.draw(board)
         teleports.draw(board)
-        monsters.draw(board)
         player_group.draw(board)
+        monsters.draw(board)
 
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
 
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
+
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
