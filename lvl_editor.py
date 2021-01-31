@@ -79,6 +79,7 @@ objects = {
     '|': pygame.transform.scale(pygame.image.load('img/saw_v.png'), (tile_size, tile_size)),
     's': pygame.transform.scale(pygame.image.load('img/key_3.png'), (tile_size, tile_size)),
     'u': pygame.transform.scale(pygame.image.load('img/key_4.png'), (tile_size, tile_size)),
+    '=': pygame.transform.scale(pygame.image.load('img/hp_potion.png'), (tile_size, tile_size)),
 
 }
 

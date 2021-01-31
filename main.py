@@ -83,6 +83,7 @@ def game(screen):
             if event.type == pygame.KEYDOWN and counter > 300:
                 run = False
 
+
     player = Player.get_instance()
     player.set_x(128)
     player.set_y(128)
@@ -367,6 +368,11 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
                     height = 300
                     pygame.display.set_mode((width, height), pygame.RESIZABLE)
                 board, floor = calculate_scale(event.size, board, floor)
+            elif event.type == pygame.KEYUP and event.key == pygame.K_e:
+                if inventory.has_potion():
+                    player.hp = player.hp + 1
+                    inventory.dec_potion()
+
         if player.check_if_hit_border():
             for t in teleports:
                 objects.add(t)

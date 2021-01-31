@@ -42,7 +42,6 @@ class Arrow(GameObject):
         if objects:
             for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
                 if isinstance(obj, Ghost) or isinstance(obj, Monster):
-                    print("XD")
                     if self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
                         obj.kill()
