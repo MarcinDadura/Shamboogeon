@@ -136,7 +136,7 @@ class RoomManager:
                     )
                 elif tile == 'h':
                     objects.append(
-                        Wall(x*16, y*16, pygame.image.load('img/candy_rainbow_wall.png').convert_alpha())
+                        Background(x*16, y*16, pygame.image.load('img/candy_rainbow_wall.png').convert_alpha())
                     )
                 elif tile == 'm':
                     objects.append(
