@@ -31,6 +31,7 @@ empty_heart = pygame.image.load('img/heart_empty.png')
 hearths_board = pygame.Surface((48, 16))
 
 welcome = pygame.image.load('img/history1.png')
+lost = pygame.image.load('img/history2.png')
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -40,7 +41,7 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
-    global welcome
+    global welcome, lost
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -71,14 +72,16 @@ def game(screen):
 
 
     run = True
+    counter = 0
     while run:
+        counter += 1
         board, welcome_2 = calculate_scale(screen.get_size(), board, welcome, force=True)
         board.blit(welcome_2, (0, 0))
         screen.fill((0, 0, 0))
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         pygame.display.flip()
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN and counter > 300:
                 run = False
 
     player = Player.get_instance()
@@ -104,6 +107,19 @@ def game(screen):
             game_state.next_lvl = False
             room_manager.set_lvl(room_manager.get_lvl() + 1)
 
+    run = True
+    counter = 0
+    while run:
+        counter += 1
+        board, lost_2 = calculate_scale(screen.get_size(), board, lost, force=True)
+        board.blit(lost_2, (0, 0))
+        screen.fill((0, 0, 0))
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and counter > 300:
+                run = False
+    exit(0)
 
 def play_room_animation(old_objects, new_objects, board, inventory: Inventory, inventory_board):
     global hearth, empty_heart, hearths_board
@@ -354,6 +370,9 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         if pygame.sprite.spritecollideany(player, teleports):
             game_state.next_lvl = True
             running = False
+        if player.hp == 0:
+            running = False
+            game_state.exit = True
 
 
 def calculate_scale(size, board, floor=None, force=False):
