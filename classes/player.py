@@ -95,7 +95,7 @@ class Player(GameObject):
                 obj.kill()
             elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
-            elif not obj.type == "background":
+            elif not obj.type == "background" and obj.type != 'button':
                 self.set_x(old_x)
                 break
 
@@ -153,7 +153,7 @@ class Player(GameObject):
 
             elif obj.type in ('ghost', 'monster', 'saw'):
                 self.take_damage()
-            elif not obj.type == "background":
+            elif not obj.type == "background" and obj.type != 'button':
                 self.set_y(old_y)
                 break
 
