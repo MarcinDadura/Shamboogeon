@@ -54,6 +54,8 @@ objects = {
     '$': pygame.transform.scale(pygame.image.load('img/teleport.png'), (tile_size, tile_size)),
     '{': pygame.transform.scale(pygame.image.load('img/door_left.png'), (tile_size, tile_size)),
     '}': pygame.transform.scale(pygame.image.load('img/door_right.png'), (tile_size, tile_size)),
+    ']': pygame.transform.scale(pygame.image.load('img/door_up.png'), (tile_size, tile_size)),
+    '[': pygame.transform.scale(pygame.image.load('img/door_down.png'), (tile_size, tile_size)),
     'r': pygame.transform.scale(pygame.image.load('img/kamien.png'), (tile_size, tile_size)),
     'k': pygame.transform.scale(pygame.image.load('img/key_1.png'), (tile_size, tile_size)),
     'l': pygame.transform.scale(pygame.image.load('img/key_2.png'), (tile_size, tile_size)),
@@ -65,9 +67,10 @@ objects = {
     'j': pygame.transform.scale(pygame.image.load('img/dungeon_spiders_web.png'), (tile_size, tile_size)),
     'e': pygame.transform.scale(pygame.image.load('img/dungeon_wall_broken.png'), (tile_size, tile_size)),
     'd': pygame.transform.scale(pygame.image.load('img/demon_0.png'), (tile_size, tile_size)),
-
     't': pygame.transform.scale(pygame.image.load('img/krata.png'), (tile_size, tile_size)),
-
+    'z': pygame.transform.scale(pygame.image.load('img/dungeon_background2.png'), (tile_size, tile_size)),
+    'h': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
+    'm': pygame.transform.scale(pygame.image.load('img/candy_wall.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]

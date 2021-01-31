@@ -8,6 +8,7 @@ from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
 from classes.inventory import Inventory
+from classes.background import Background
 import pygame
 
 class RoomManager:
@@ -81,7 +82,15 @@ class RoomManager:
                 elif tile == '}':
                     objects.append(
                         Door(x*16, y*16, 'right')
-                    ) 
+                    )
+                elif tile == ']':
+                    objects.append(
+                        Door(x*16, y*16, 'up')
+                    )
+                elif tile == '[':
+                    objects.append(
+                        Door(x*16, y*16, 'down')
+                    )
                 elif tile == 'r':
                     objects.append(
                         Rock(x*16 + 1, y*16 + 1)
@@ -125,9 +134,25 @@ class RoomManager:
                     objects.append(
                         Wall(x*16, y*16, pygame.image.load('img/dungeon_skull.png').convert_alpha())
                     )
+                elif tile == 'h':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/candy_rainbow_wall.png').convert_alpha())
+                    )
+                elif tile == 'm':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/candy_wall.png').convert_alpha())
+                    )
                 elif tile == 'd':
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
 
+                    )
+                elif tile == 'z':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/dungeon_background2.png').convert_alpha())
+                    )
+                elif tile == 'f':
+                    objects.append(
+                        Background(x * 16, y * 16)
                     )
         return objects
