@@ -30,6 +30,7 @@ hearth = pygame.image.load('img/heart.png')
 empty_heart = pygame.image.load('img/heart_empty.png')
 hearths_board = pygame.Surface((48, 16))
 
+welcome = pygame.image.load('img/history1.png')
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -39,6 +40,7 @@ def main_menu() -> bool:
 
 def game(screen):
     """Load levels"""
+    global welcome
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
@@ -66,6 +68,19 @@ def game(screen):
         game_sound.play(-1)
         game_sound.set_volume(0.15)
     board = pygame.Surface((640, 640))
+
+
+    run = True
+    while run:
+        board, welcome_2 = calculate_scale(screen.get_size(), board, welcome, force=True)
+        board.blit(welcome_2, (0, 0))
+        screen.fill((0, 0, 0))
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                run = False
+
     player = Player.get_instance()
     player.set_x(128)
     player.set_y(128)
@@ -185,7 +200,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
             for x in new_objects:
                 if not x.cary:
                     x.set_x(x.get_x() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
-            player.set_x(player.get_x() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
+            player.set_x(player.get_x() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.3/16) * direction)
         else:
             for x in old_objects:
                 if not x.cary:
@@ -193,7 +208,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
             for x in new_objects:
                 if not x.cary:
                     x.set_y(x.get_y() + speed * (time_delta/1000) * game_state.get_board_scale() * direction)
-            player.set_y(player.get_y() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.1/16) * direction)
+            player.set_y(player.get_y() + speed * (time_delta/1000) * game_state.get_board_scale()/(17.3/16) * direction)
 
         if move >= 16 * 16:
             if horizontal:
