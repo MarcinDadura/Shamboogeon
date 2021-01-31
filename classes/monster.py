@@ -16,7 +16,6 @@ class Monster(GameObject):
     def __init__(self, x: int, y: int, speed: int ,sound_path: str, sprite_path: str, obj_name: str, max_s: int ):
         # Load sprite only once
         self.speed = speed
-        self.oldspeed= speed
         self.count = 0
         self.name = obj_name
         self.max = max_s
@@ -27,7 +26,6 @@ class Monster(GameObject):
         super().__init__(x, y, 16, 16, Monster.sprite, obj_name)
 
     def update(self, time_delta, objects):
-        self.speed = self.oldspeed
         old_x = self.get_x()
         old_y = self.get_y()
         if self.count % 20 == 0:
@@ -55,19 +53,14 @@ class Monster(GameObject):
 
         for obj in pygame.sprite.spritecollide(self, objects, dokill=False):
             if obj.type == 'rock' or obj.type == 'wall':
-                    print("sranie do mordy")
-                    self.horizontal_direction = - self.horizontal_direction
-                    self.speed = 1
+                    self.horizontal_direction = -self.horizontal_direction
                     self.set_x(old_x)
                     break
 
         for obj in pygame.sprite.spritecollide(self, objects, dokill=False):
             if obj.type == 'rock' or obj.type == 'wall':
-                    print("sranie do japy")
                     self.vertical_direction = -self.vertical_direction
-                    self.speed= 1
                     self.set_y(old_y)
                     break
-        print(self.horizontal_direction)
         self.set_x(self._x + self.speed * (time_delta / 1000) * self.horizontal_direction)
         self.set_y(self._y + self.speed * (time_delta / 1000) * self.vertical_direction)
