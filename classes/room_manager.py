@@ -194,4 +194,8 @@ class RoomManager:
                     objects.append(
                         Item("hp_potion", "hp_potion", pygame.image.load('img/hp_potion.png').convert_alpha(), x*16, y*16)
                     )
+                elif tile == 'y':
+                    objects.append(
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/dr_pehape_0.png', 'dr_pehape', 0, 4, False)
+                    )
         return objects

@@ -13,18 +13,22 @@ class Monster(GameObject):
     horizontal_direction = 0
     vertical_direction = 0
 
-    def __init__(self, x: int, y: int, speed: int ,sound_path: str, sprite_path: str, obj_name: str, max_s: int ):
+    def __init__(self, x: int, y: int, speed: int ,sound_path: str, sprite_path: str, obj_name: str, max_s: int, size: int = 1, move: bool = True):
         # Load sprite only once
         self.speed = speed
         self.count = 0
         self.name = obj_name
         self.max = max_s
+        self.move = move
+
         self.sprite = pygame.image.load(sprite_path.format(self.count)).convert_alpha()
         Monster.sound = pygame.mixer.Sound(sound_path)
         self.sound = Monster.sound
-        super().__init__(x, y, 16, 16, self.sprite, 'monster')
+        super().__init__(x, y, 16 * size, 16 * size, self.sprite, 'monster')
 
     def update(self, time_delta, objects):
+        if not self.move:
+            return
         old_x = self.get_x()
         old_y = self.get_y()
         if self.count % 20 == 0:
