@@ -11,7 +11,7 @@ class Rock(GameObject):
     def __init__(self, x: int, y: int):
         # Load sprite only once
         self.direction = [0, 0]
-        self.speed = 150
+        self.speed = 50
         if Rock.rock_sprite is None:
             Rock.rock_sprite = pygame.image.load('img/kamien.png').convert_alpha()
             Rock.sound = pygame.mixer.Sound('sounds/kamyk.ogg')
@@ -42,6 +42,7 @@ class Rock(GameObject):
             if x.type == 'wall':
                 self.set_x(old_x)
                 self.set_y(old_y)
+                self.direction = [0, 0]
                 return False
         return True
 
