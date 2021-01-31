@@ -284,7 +284,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         objects.update(time_delta)
         teleports.update(time_delta)
         monsters.update(time_delta, objects)
-        player.update(time_delta, objects, enemies)
+        player.update(time_delta, all_objects, enemies)
         enemies.update(time_delta, all_objects)
 
         objects.draw(board)
