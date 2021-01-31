@@ -12,6 +12,14 @@ from classes.saw import Saw
 from classes.resp import Resp
 from classes.inventory import Inventory
 from classes.background import Background
+from classes.rainbow_puzzle1 import Rainbow_1
+from classes.rainbow_puzzle2 import Rainbow_2
+from classes.button_rainbow1 import Button_rainbow1
+from classes.button_rainbow2 import Button_rainbow2
+from classes.trellis_rainbow1 import Trellis_rainbow1
+from classes.trellis_rainbow2 import Trellis_rainbow2
+
+
 import pygame
 
 class RoomManager:
@@ -98,6 +106,7 @@ class RoomManager:
                         Door(x*16, y*16, 'down')
                     )
                 elif tile == 'r':
+
                     objects.append(
                         Rock(x*16 + 1, y*16 + 1)
                     ) 
@@ -174,6 +183,14 @@ class RoomManager:
                     objects.append(
                         Background(x * 16, y * 16, pygame.image.load('img/candy_rainbow_wall2.png').convert_alpha())
                     )
+                elif tile == 'x':
+                    objects.append(
+                        Rainbow_1(x * 16, y * 16)
+                    )
+                elif tile == '&':
+                    objects.append(
+                        Rainbow_2(x * 16, y * 16)
+                    )
                 elif tile == 's':
                     objects.append(
                         Key(x*16, y*16, 3)
@@ -182,6 +199,16 @@ class RoomManager:
                     objects.append(
                         Key(x*16, y*16, 4)
                     )
+                elif tile == '+':
+                    objects.append(
+                        Button_rainbow1(x * 16, y * 16)
+                    )
+
+                elif tile == '-':
+                    objects.append(
+                        Button_rainbow2(x * 16, y * 16)
+                    )
+
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
@@ -244,4 +271,14 @@ class RoomManager:
                     objects.append(
                         Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece6.png').convert_alpha(), "rocket")
                     )
+                elif tile == '?':
+                    objects.append(
+                        Trellis_rainbow1(x * 16, y * 16)
+                    )
+                elif tile == '/':
+                    objects.append(
+                        Trellis_rainbow2(x * 16, y * 16)
+                    )
+
+
         return objects

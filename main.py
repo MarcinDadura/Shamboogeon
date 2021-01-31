@@ -13,6 +13,7 @@ from classes.arrow import Arrow
 from classes.saw import Saw
 import sys
 
+
 # Initialize pygame
 pygame.init()
 
@@ -273,7 +274,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             pass
 
     for obj in objects:
-        if obj.type in ('ghost', 'rock', 'saw'):
+        if obj.type in ('ghost', 'rock', 'rainbow1', 'rainbow2'):
             enemies.add(obj)
 
     for o in monsters:

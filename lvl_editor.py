@@ -49,6 +49,7 @@ except FileNotFoundError:
 window = pygame.display.set_mode((800, 600))
 
 # All available objects
+
 objects = {
     '#': pygame.transform.scale(pygame.image.load('img/wall.png'), (tile_size, tile_size)),
     '$': pygame.transform.scale(pygame.image.load('img/teleport.png'), (tile_size, tile_size)),
@@ -90,9 +91,16 @@ objects = {
     '>': pygame.transform.scale(pygame.image.load('img/rocket_piece4.png'), (tile_size, tile_size)),
     ';': pygame.transform.scale(pygame.image.load('img/rocket_piece5.png'), (tile_size, tile_size)),
     ':': pygame.transform.scale(pygame.image.load('img/rocket_piece6.png'), (tile_size, tile_size)),
+    'x': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
+    '&': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall2.png'), (tile_size, tile_size)),
+    '+': pygame.transform.scale(pygame.image.load('img/button.png'), (tile_size, tile_size)),
+    '-': pygame.transform.scale(pygame.image.load('img/button.png'), (tile_size, tile_size)),
+    '?': pygame.transform.scale(pygame.image.load('img/trellis.png'), (tile_size, tile_size)),
+    '/': pygame.transform.scale(pygame.image.load('img/trellis.png'), (tile_size, tile_size)),
 }
 
 palete = [sign for sign in objects]
+
 arrow = pygame.transform.scale(pygame.image.load('img/arrow.png'), (tile_size, tile_size))
 
 def get_grid_pos(click_pos):
