@@ -145,7 +145,16 @@ class RoomManager:
                 elif tile == 'd':
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+                    )
 
+                elif tile == 'n':
+                    objects.append(
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/candy_mob_0.png', 'candy_mob', 0)
+                    )
+
+                elif tile == 'o':
+                    objects.append(
+                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/rainbow_mob_0.png', 'rainbow_mob', 2)
                     )
                 elif tile == 'z':
                     objects.append(

@@ -19,11 +19,10 @@ class Monster(GameObject):
         self.count = 0
         self.name = obj_name
         self.max = max_s
-        if Monster.sprite is None:
-            Monster.sprite = pygame.image.load(sprite_path.format(self.count)).convert_alpha()
-            Monster.sound = pygame.mixer.Sound(sound_path)
+        self.sprite = pygame.image.load(sprite_path.format(self.count)).convert_alpha()
+        Monster.sound = pygame.mixer.Sound(sound_path)
         self.sound = Monster.sound
-        super().__init__(x, y, 16, 16, Monster.sprite, obj_name)
+        super().__init__(x, y, 16, 16, self.sprite, 'monster')
 
     def update(self, time_delta, objects):
         old_x = self.get_x()

@@ -71,6 +71,9 @@ objects = {
     'z': pygame.transform.scale(pygame.image.load('img/dungeon_background2.png'), (tile_size, tile_size)),
     'h': pygame.transform.scale(pygame.image.load('img/candy_rainbow_wall.png'), (tile_size, tile_size)),
     'm': pygame.transform.scale(pygame.image.load('img/candy_wall.png'), (tile_size, tile_size)),
+    'n': pygame.transform.scale(pygame.image.load('img/candy_mob_0.png'), (tile_size, tile_size)),
+    'o': pygame.transform.scale(pygame.image.load('img/rainbow_mob_0.png'), (tile_size, tile_size)),
+
 }
 
 palete = [sign for sign in objects]
