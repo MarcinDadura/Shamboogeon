@@ -34,6 +34,7 @@ hearths_board = pygame.Surface((48, 16))
 
 welcome = pygame.image.load('img/history1.png')
 lost = pygame.image.load('img/history2.png')
+lost2 = pygame.image.load('img/history3.png')
 lvl = 1
 
 try:
@@ -69,6 +70,7 @@ def game(screen):
 
     game_menu.sound.stop()
     if (room_manager.get_lvl() == 1):
+        print('test')
         game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
         game_sound.play(-1)
         game_sound.set_volume(0.15)
@@ -95,6 +97,10 @@ def game(screen):
     player.set_x(128)
     player.set_y(128)
 
+    show_s = True
+
+    resett = True
+
     while(not game_state.exit):
         objects_list = room_manager.get_objects()
         old_room_obj = room(screen, board, objects_list, inventory, inventory_board)
@@ -113,11 +119,27 @@ def game(screen):
         if game_state.next_lvl:
             game_state.next_lvl = False
             room_manager.set_lvl(room_manager.get_lvl() + 1)
-        if (room_manager.get_lvl() == 2):
+
+        if (room_manager.get_lvl() == 2 and resett):
+            resett = False
             game_sound.stop()
             game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
             game_sound.play(-1)
-            game_sound.set_volume(0.15)
+            game_sound.set_volume(0.95)
+
+        run = True
+        counter = 0
+        while run and show_s and room_manager.get_lvl() == 2:
+            counter += 1
+            board, lost3 = calculate_scale(screen.get_size(), board, lost2, force=True)
+            board.blit(lost3, (0, 0))
+            screen.fill((0, 0, 0))
+            screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and counter > 300:
+                    run = False
+                    show_s = False
 
     run = True
     counter = 0
@@ -274,7 +296,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
             pass
 
     for obj in objects:
-        if obj.type in ('ghost', 'rock', 'rainbow1', 'rainbow2'):
+        if obj.type in ('ghost', 'rock', 'rainbow1', 'rainbow2', 'saw'):
             enemies.add(obj)
 
     for o in monsters:
