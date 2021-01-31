@@ -3,8 +3,8 @@
 e000z00ed000t00j
 e000zf0eee###00#
 e000zf000000000#
-e0000fzz000s000#
-#00000zf0p0u000e
+e0000fzz0000000#
+#00000zf0p00000e
 #ccccc#ete000zze
 #0ccc0#e0e00zzze
 #0000fe#0ezzzz0e
