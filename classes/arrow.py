@@ -18,6 +18,7 @@ class Arrow(GameObject):
         self.speed = 150
         self.horizontal_direction = horizontal_direction
         self.vertical_direction = vertical_direction
+        self.st = 0
         Arrow.luk_sound = pygame.mixer.Sound('sounds/łuk_strzał.ogg')
         if Arrow.sprites is None:
             Arrow.sprites = [
@@ -28,12 +29,16 @@ class Arrow(GameObject):
             ]
         if horizontal_direction > 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[0], 'arrow')
+            self.st = 0
         elif horizontal_direction < 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[2], 'arrow')
+            self.st = 2
         elif vertical_direction < 0:
             super().__init__(x, y, 8, 8, Arrow.sprites[1], 'arrow')
+            self.st = 1
         else:
             super().__init__(x, y, 8, 8, Arrow.sprites[3], 'arrow')
+            self.st = 3
         self.set_sprite(self.image)
 
     def update(self, time_delta, objects=None):
@@ -42,7 +47,11 @@ class Arrow(GameObject):
         if objects:
             for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
                 if isinstance(obj, Ghost) or isinstance(obj, Monster):
-                    if self.horizontal_direction != 0 or self.vertical_direction != 0:
+                    if isinstance(obj, Monster) and obj.name == 'dr_pehape':
+                            self.horizontal_direction = -self.horizontal_direction                            
+                            self.vertical_direction = -self.vertical_direction
+                            self.image = Arrow.sprites[self.st+2]
+                    elif self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
                         obj.kill()
                         self.horizontal_direction = 0

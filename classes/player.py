@@ -160,6 +160,8 @@ class Player(GameObject):
         if enemies is not None:
             for obj in  pygame.sprite.spritecollide(self, enemies, dokill=False):
                 if obj.type == 'arrow':
+                    if obj.horizontal_direction != 0 or obj.vertical_direction != 0:
+                        self.take_damage()
                     item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
                     inventory.add_item(item)
                     obj.cary = True
