@@ -58,7 +58,10 @@ class Arrow(GameObject):
                                         i.kill()
                             self.horizontal_direction = -self.horizontal_direction                            
                             self.vertical_direction = -self.vertical_direction
-                            self.image = Arrow.sprites[self.st+2]
+                            try:
+                                self.image = Arrow.sprites[self.st+2]
+                            except IndexError:
+                                self.image = Arrow.sprites[self.st-2]
                             self.set_sprite(self.image)
                     elif self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
