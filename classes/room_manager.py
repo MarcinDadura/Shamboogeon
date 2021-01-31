@@ -185,4 +185,8 @@ class RoomManager:
                     objects.append(
                         Saw(x * 16, y * 16)
                     )
+                elif tile == '|':
+                    objects.append(
+                        Saw(x * 16, y * 16, False)
+                    )
         return objects

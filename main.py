@@ -10,6 +10,7 @@ from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
 from classes.arrow import Arrow
+from classes.saw import Saw
 
 
 # Initialize pygame
@@ -109,7 +110,6 @@ def game(screen):
             game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
             game_sound.play(-1)
             game_sound.set_volume(0.15)
-            print('chuj2')
 
     run = True
     counter = 0
@@ -370,11 +370,14 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         if player.check_if_hit_border():
             for t in teleports:
                 objects.add(t)
+            Saw.stop_saws()
             return objects
         if pygame.sprite.spritecollideany(player, teleports):
+            Saw.stop_saws()
             game_state.next_lvl = True
             running = False
         if player.hp == 0:
+            Saw.stop_saws()
             running = False
             game_state.exit = True
 
