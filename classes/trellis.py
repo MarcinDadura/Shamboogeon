@@ -1,3 +1,4 @@
+from pygame.sprite import Sprite
 from classes.game_object import GameObject
 import pygame
 
@@ -7,8 +8,7 @@ class Trellis(GameObject):
 
     sprite = None
 
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int, sprite: Sprite = None):
         # Load sprite only once
-        if Trellis.sprite is None:
-            Trellis.sprite = pygame.image.load('img/krata.png').convert_alpha()
-        super().__init__(x, y, 16, 16, Trellis.sprite, 'trellis')
+        self.sprite = pygame.image.load('img/krata.png').convert_alpha() if not sprite else sprite
+        super().__init__(x, y, 16, 16, self.sprite, 'trellis')

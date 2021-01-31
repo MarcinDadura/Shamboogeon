@@ -160,6 +160,14 @@ class RoomManager:
                     objects.append(
                         Background(x * 16, y * 16, pygame.image.load('img/dungeon_background2.png').convert_alpha())
                     )
+                elif tile == 'p':
+                    objects.append(
+                        Trellis(x * 16, y * 16, pygame.image.load('img/krata2.png').convert_alpha())
+                    )
+                elif tile == 'q':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/candy_rainbow_wall2.png').convert_alpha())
+                    )
                 elif tile == 'f':
                     objects.append(
                         Background(x * 16, y * 16)
