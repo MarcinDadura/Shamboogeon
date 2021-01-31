@@ -80,7 +80,7 @@ class Player(GameObject):
                 pass
             elif obj.type == 'demon':
                 obj.sound.play()
-            else:
+            elif not obj.type == "background":
                 self.set_x(old_x)
                 break
 
@@ -134,7 +134,7 @@ class Player(GameObject):
                 obj.sound.play()
             elif obj.type == 'demon':
                 obj.sound.play()
-            else:
+            elif not obj.type == "background":
                 self.set_y(old_y)
                 break
 

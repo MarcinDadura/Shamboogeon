@@ -8,6 +8,7 @@ from classes.button import Button
 from classes.trellis import Trellis
 from classes.monster import Monster
 from classes.inventory import Inventory
+from classes.background import Background
 import pygame
 
 class RoomManager:
@@ -129,5 +130,13 @@ class RoomManager:
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
 
+                    )
+                elif tile == 'z':
+                    objects.append(
+                        Background(x * 16, y * 16, pygame.image.load('img/dungeon_background2.png').convert_alpha())
+                    )
+                elif tile == 'f':
+                    objects.append(
+                        Background(x * 16, y * 16)
                     )
         return objects

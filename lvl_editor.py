@@ -67,6 +67,7 @@ objects = {
     'd': pygame.transform.scale(pygame.image.load('img/demon_0.png'), (tile_size, tile_size)),
 
     't': pygame.transform.scale(pygame.image.load('img/krata.png'), (tile_size, tile_size)),
+    'z': pygame.transform.scale(pygame.image.load('img/dungeon_background2.png'), (tile_size, tile_size)),
 
 }
 
