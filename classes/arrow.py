@@ -5,6 +5,7 @@ import pygame
 from classes.monster import Monster
 from classes.ghost import Ghost
 from classes.item import Item
+from classes.game_state import GameState
 from classes.inventory import Inventory
 
 class Arrow(GameObject):
@@ -42,15 +43,23 @@ class Arrow(GameObject):
         self.set_sprite(self.image)
 
     def update(self, time_delta, objects=None):
+        game_state = GameState.get_instance()
         self.set_x(self._x + self.speed * (time_delta/1000) * -self.horizontal_direction)
         self.set_y(self._y + self.speed * (time_delta/1000) * self.vertical_direction)
         if objects:
             for obj in  pygame.sprite.spritecollide(self, objects, dokill=False):
                 if isinstance(obj, Ghost) or isinstance(obj, Monster):
                     if isinstance(obj, Monster) and obj.name == 'dr_pehape':
+                            game_state.boss_hp -= 1
+                            if game_state.boss_hp <= 0:
+                                obj.kill()
+                                for i in objects:
+                                    if i.type == 'trellis':
+                                        i.kill()
                             self.horizontal_direction = -self.horizontal_direction                            
                             self.vertical_direction = -self.vertical_direction
                             self.image = Arrow.sprites[self.st+2]
+                            self.set_sprite(self.image)
                     elif self.horizontal_direction != 0 or self.vertical_direction != 0:
                         obj.sound.play()
                         obj.kill()
