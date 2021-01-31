@@ -18,7 +18,7 @@ import sys
 pygame.init()
 
 # Creating the screen
-screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
+screen = pygame.display.set_mode((1300, 800))
 
 #pygame.mixer.music.load('elo.ogg')
 #pygame.mixer.music.play(-1)
