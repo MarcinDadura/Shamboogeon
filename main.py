@@ -42,7 +42,7 @@ def game(screen):
 
     game_state = GameState.get_instance()
     inventory = Inventory.get_instance()
-    inventory_board = pygame.Surface(inventory.get_size())
+    inventory_board = pygame.Surface(screen.get_size())
 
     item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
     item2 = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
@@ -173,9 +173,9 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
         new_objects.draw(board)
         old_objects.draw(board)
         player_group.draw(board)
-        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
         screen.blit(hearths_board, (0, screen.get_size()[1]-16 * GameState.get_instance().get_board_scale()))
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         pygame.display.flip()
 
         if horizontal:
@@ -251,6 +251,12 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     # Make sure if scale of the board is correct
     board, floor = calculate_scale(screen.get_size(), board, floor, force=True)
 
+    all_objects = pygame.sprite.Group()
+    for obj in objects:
+        all_objects.add(obj)
+    for obj in monsters:
+        all_objects.add(obj)
+
     running = True
     while running:
 
@@ -279,8 +285,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         teleports.update(time_delta)
         monsters.update(time_delta, objects)
         player.update(time_delta, objects, enemies)
-        enemies.update(time_delta, objects)
-        enemies.update(time_delta, monsters)
+        enemies.update(time_delta, all_objects)
 
         objects.draw(board)
         enemies.draw(board)
@@ -291,10 +296,9 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
 
-        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
-
         screen.blit(hearths_board, (0, screen.get_size()[1]-16 * GameState.get_instance().get_board_scale()))
+        screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
