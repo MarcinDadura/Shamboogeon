@@ -10,5 +10,5 @@ class Trellis_rainbow1(GameObject):
 
     def __init__(self, x: int, y: int, sprite: Sprite = None):
         # Load sprite only once
-        self.sprite = pygame.image.load('img/krata.png').convert_alpha() if not sprite else sprite
+        self.sprite = pygame.image.load('img/candy_trelis.png').convert_alpha() if not sprite else sprite
         super().__init__(x, y, 16, 16, self.sprite, 'trellis_rainbow1')
