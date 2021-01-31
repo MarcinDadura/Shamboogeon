@@ -79,6 +79,14 @@ class Player(GameObject):
                 if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
                     self.set_x(old_x)
                     break
+            elif obj.type == 'rainbow1':
+                if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+                    self.set_x(old_x)
+                    break
+            elif obj.type == 'rainbow2':
+                if not obj.push(self.speed * (time_delta/1000) * horizontal_direction, 0, objects):
+                    self.set_x(old_x)
+                    break
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)),0, 0)
                 inventory.add_item(item)
@@ -130,6 +138,13 @@ class Player(GameObject):
                 if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
                     self.set_y(old_y)
                     break
+            elif obj.type == 'rainbow1':
+                if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+                    self.set_y(old_y)
+                    break
+            elif obj.type == 'rainbow2':
+                if not obj.push(0, self.speed * (time_delta/1000) * -vertical_direction, objects):
+                    self.set_y(old_y)
             elif obj.type == 'key':
                 item = Item("key_{}".format(obj.part), "key_{}".format(obj.part), pygame.image.load('img/key_{}.png'.format(obj.part)), 0, 0)
                 inventory.add_item(item)
