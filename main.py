@@ -2,6 +2,7 @@ import pygame
 import pygame_menu
 from classes.game_state import GameState
 from classes.room_manager import RoomManager
+from classes.monster import Monster
 from classes.game_object import GameObject
 from classes.player import Player
 from classes.teleport import Teleport
@@ -9,6 +10,7 @@ from classes.main_menu import  Menu
 from classes.inventory import Inventory
 from classes.item import Item
 from classes.arrow import Arrow
+
 
 # Initialize pygame
 pygame.init()
@@ -54,11 +56,11 @@ def game(screen):
     if (room_manager.get_lvl() == 1):
         game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
         game_sound.play(-1)
-        game_sound.set_volume(0.1)
+        game_sound.set_volume(0.15)
     if (room_manager.get_lvl() == 2):
         game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
         game_sound.play(-1)
-        game_sound.set_volume(0.1)
+        game_sound.set_volume(0.15)
     board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
@@ -193,6 +195,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     """
 
     objects = pygame.sprite.Group()
+    monsters = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
     floor = None
@@ -202,8 +205,10 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         floor = pygame.image.load('img/candy_floor.png')
 
     for o in objects_list:
-        if not isinstance(o, Teleport):
+        if not isinstance(o, Teleport) and not isinstance(o, Monster):
             objects.add(o)
+        elif isinstance(o, Monster):
+            monsters.add(o)
         elif not o.cary:
             teleports.add(o)
         elif o.cary:
@@ -212,6 +217,9 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     for obj in objects:
         if obj.type in ('ghost', 'rock'):
             enemies.add(obj)
+
+    for o in monsters:
+        enemies.add(o)
 
     clock = pygame.time.Clock()
     game_state = GameState.get_instance()
@@ -244,15 +252,19 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         board.fill((0, 255, 0))
         if floor:
             board.blit(floor, (0, 0))
+
+        objects.update(time_delta)
         teleports.update(time_delta)
+        monsters.update(time_delta, objects)
         player.update(time_delta, objects, enemies)
         enemies.update(time_delta, objects)
-        objects.update(time_delta)
+        enemies.update(time_delta, monsters)
 
         objects.draw(board)
         enemies.draw(board)
         teleports.draw(board)
         player_group.draw(board)
+        monsters.draw(board)
 
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
@@ -260,7 +272,6 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
 
-        enemies.draw(board)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
