@@ -24,6 +24,10 @@ screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
 # Title
 pygame.display.set_caption("Shamboo")
 
+hearth = pygame.image.load('img/heart.png')
+empty_heart = pygame.image.load('img/heart_empty.png')
+hearths_board = pygame.Surface((48, 16))
+
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -81,6 +85,7 @@ def game(screen):
 
 
 def play_room_animation(old_objects, new_objects, board, inventory: Inventory, inventory_board):
+    global hearth, empty_heart, hearths_board
     speed = 150
     player = Player.get_instance()
     horizontal = True
@@ -135,6 +140,15 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
             inventory_g.add(o)
 
         inventory_board.fill((0, 0, 0))
+        hearths_board.fill((0, 0, 0))
+        for i in range(3):
+            if i < player.hp:
+                hearths_board.blit(hearth, (16*i * game_state.get_board_scale(), 0))
+            else:
+                hearths_board.blit(empty_heart, (16*i * game_state.get_board_scale(), 0))
+
+
+        inventory_board.fill((0, 0, 0))
         inventory_bar.draw(inventory_board)
         inventory_g.draw(inventory_board)
 
@@ -155,6 +169,7 @@ def play_room_animation(old_objects, new_objects, board, inventory: Inventory, i
         player_group.draw(board)
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
+        screen.blit(hearths_board, (0, screen.get_size()[1]-16 * GameState.get_instance().get_board_scale()))
         pygame.display.flip()
 
         if horizontal:
@@ -187,7 +202,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     Game loop
     Return objects to play animation 
     """
-
+    global hearth, empty_heart, hearths_board
     objects = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     teleports = pygame.sprite.Group()
@@ -227,10 +242,17 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
     running = True
     while running:
 
+        hearths_board.fill((0, 0, 0))
         inventory_g = pygame.sprite.Group()
         for o in inventory.get_items():
             o.rescale()
             inventory_g.add(o)
+
+        for i in range(3):
+            if i < player.hp:
+                hearths_board.blit(hearth, (16*i * game_state.get_board_scale(), 0))
+            else:
+                hearths_board.blit(empty_heart, (16*i * game_state.get_board_scale(), 0))
 
         time_delta = clock.tick(120)
         # RGB from 0 to 255
@@ -254,6 +276,7 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
+        screen.blit(hearths_board, (0, screen.get_size()[1]-16 * GameState.get_instance().get_board_scale()))
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -297,6 +320,10 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
 
 def calculate_scale(size, board, floor=None, force=False):
+    global hearth, empty_heart, hearths_board
+    hearth = pygame.image.load('img/heart.png')
+    empty_heart = pygame.image.load('img/heart_empty.png')
+    hearths_board = pygame.Surface((48, 16))
     game_state = GameState.get_instance()
     h_tiles = size[0] // 16
     v_tiles = size[1] // 16
@@ -307,6 +334,9 @@ def calculate_scale(size, board, floor=None, force=False):
     if h_tiles < v_tiles:
         v_tiles = h_tiles
 
+    hearths_board = pygame.transform.scale(hearths_board, (3 * 16 * v_tiles, 16 * v_tiles))
+    empty_heart = pygame.transform.scale(empty_heart, (16 * v_tiles, 16 * v_tiles))
+    hearth = pygame.transform.scale(hearth, (16 * v_tiles, 16 * v_tiles))
     if game_state.get_board_scale() != v_tiles or force:
         game_state.set_board_scale(v_tiles)
         GameObject.rescale()
