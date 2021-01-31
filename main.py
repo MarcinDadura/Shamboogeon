@@ -251,6 +251,8 @@ def room(screen, board, objects_list: list, inventory: Inventory, inventory_boar
 
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         screen.blit(inventory_board, (0, 0))
+
+        enemies.draw(board)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
