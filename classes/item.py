@@ -7,8 +7,8 @@ class Item(GameObject):
         item class
     """
 
-    def __init__(self, title: str, desc: str, sprite: Sprite, x: float, y: float):
-        super().__init__(x, y, 16, 16, sprite)
+    def __init__(self, title: str, desc: str, sprite: Sprite, x: int, y: int):
+        super().__init__(x, y, 16, 16, sprite, "item")
         self.title = title
         self.desc = desc
         self.sprite = sprite
