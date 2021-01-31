@@ -134,6 +134,14 @@ class RoomManager:
                     objects.append(
                         Wall(x*16, y*16, pygame.image.load('img/dungeon_skull.png').convert_alpha())
                     )
+                elif tile == 'h':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/candy_rainbow_wall.png').convert_alpha())
+                    )
+                elif tile == 'm':
+                    objects.append(
+                        Wall(x*16, y*16, pygame.image.load('img/candy_wall.png').convert_alpha())
+                    )
                 elif tile == 'd':
                     objects.append(
                         Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
