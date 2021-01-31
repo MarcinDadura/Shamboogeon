@@ -93,7 +93,7 @@ class Player(GameObject):
                 self.take_damage()
             elif obj.type == 'demon':
                 self.take_damage()
-            else:
+            elif not obj.type == "background":
                 self.set_x(old_x)
                 break
 
@@ -147,7 +147,7 @@ class Player(GameObject):
                 self.take_damage()
             elif obj.type == 'demon':
                 self.take_damage()
-            else:
+            elif not obj.type == "background":
                 self.set_y(old_y)
                 break
 
