@@ -11,7 +11,7 @@ from classes.inventory import Inventory
 from classes.item import Item
 from classes.arrow import Arrow
 from classes.saw import Saw
-
+import sys
 
 # Initialize pygame
 pygame.init()
@@ -33,6 +33,12 @@ hearths_board = pygame.Surface((48, 16))
 
 welcome = pygame.image.load('img/history1.png')
 lost = pygame.image.load('img/history2.png')
+lvl = 1
+
+try:
+    lvl = sys.argv[1]
+except IndexError:
+    lvl = 1
 
 def main_menu() -> bool:
     """Should return False player when player hits exit button"""
@@ -56,7 +62,7 @@ def game(screen):
 
     game_state.reset()
 
-    room_manager.set_lvl(1)
+    room_manager.set_lvl(lvl)
 
     """Sound"""
 
