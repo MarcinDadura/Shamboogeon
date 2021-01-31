@@ -122,6 +122,8 @@ def game(screen):
         screen.blit(board, ((screen.get_size()[0] - board.get_size()[0])/2, 0))
         pygame.display.flip()
         for event in pygame.event.get():
+            if event.type == pygame.QUIT and counter > 300:
+                run = False
             if event.type == pygame.KEYDOWN and counter > 300:
                 run = False
     exit(0)

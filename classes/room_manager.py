@@ -36,6 +36,9 @@ class RoomManager:
         self._y = 12
         # Clear rooms
         self.rooms = [[None for _ in range(21)] for _ in range(21)]
+        if self.lvl == 2:
+            self._x = 10
+            self._y = 15
 
     def get_lvl(self):
         return self.lvl
@@ -146,7 +149,7 @@ class RoomManager:
                     )
                 elif tile == 'd':
                     objects.append(
-                        Monster(x * 16, y * 16, 5, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
+                        Monster(x * 16, y * 16, 10, 'sounds/demon.ogg', 'img/demon_0.png', 'demon', 5)
                     )
 
                 elif tile == 'n':
