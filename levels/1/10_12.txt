@@ -2,9 +2,9 @@
 #a00000#=000p0j#
 e000z00ed000p00j
 e000zf0eee###00#
-e000zf000000000#
-e0000fzz0000x00#
-#00000zf00&0000e
+e000zf0000x0000#
+e0?00fzz0&0-0+0#
+#00?00zf0p00000e
 #ccccc#ete000zze
 #0ccc0#e0e00zzze
 #0000fe#0ezzzz0e

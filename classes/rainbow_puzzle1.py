@@ -30,10 +30,32 @@ class Rainbow_1(GameObject):
                 self.set_y(old_y)
                 self.direction = [0, 0]
 
+            if x.type == 'button_rainbow2':
+                self.set_x(old_x)
+                self.set_y(old_y)
+                self.direction = [0, 0]
+
             if x.type == 'rainbow2':
                 self.set_x(old_x)
                 self.set_y(old_y)
                 self.direction = [0, 0]
+
+            if x.type == 'button_rainbow1':
+                self.direction = [0, 0]
+                self.set_x(x.get_x() + 1)
+                self.set_y(x.get_y() + 1)
+                if self.sound is not None:
+                    self.sound.stop()
+                open_the_trellis = True
+                for x in GameObject.all_objects:
+                    if x.type == 'button_rainbow1':
+                        if not x.is_pushed():
+                            open_the_trellis = False
+
+                if open_the_trellis:
+                    for x in GameObject.all_objects:
+                        if x.type == 'trellis_rainbow1' or x.type == 'button_rainbow1':
+                            x.kill()
 
 
 
