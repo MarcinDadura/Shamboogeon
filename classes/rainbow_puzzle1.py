@@ -51,11 +51,12 @@ class Rainbow_1(GameObject):
                 self.set_y(x.get_y() + 1)
                 if self.sound is not None:
                     self.sound.stop()
+                self.kill()
+                x.kill()
                 open_the_trellis = True
                 for x in GameObject.all_objects:
                     if x.type == 'button_rainbow1':
-                        if not x.is_pushed():
-                            open_the_trellis = False
+                        open_the_trellis = False
 
                 if open_the_trellis:
                     for x in GameObject.all_objects:
