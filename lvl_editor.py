@@ -54,6 +54,8 @@ objects = {
     '$': pygame.transform.scale(pygame.image.load('img/teleport.png'), (tile_size, tile_size)),
     '{': pygame.transform.scale(pygame.image.load('img/door_left.png'), (tile_size, tile_size)),
     '}': pygame.transform.scale(pygame.image.load('img/door_right.png'), (tile_size, tile_size)),
+    ']': pygame.transform.scale(pygame.image.load('img/door_up.png'), (tile_size, tile_size)),
+    '[': pygame.transform.scale(pygame.image.load('img/door_down.png'), (tile_size, tile_size)),
     'r': pygame.transform.scale(pygame.image.load('img/kamien.png'), (tile_size, tile_size)),
     'k': pygame.transform.scale(pygame.image.load('img/key_1.png'), (tile_size, tile_size)),
     'l': pygame.transform.scale(pygame.image.load('img/key_2.png'), (tile_size, tile_size)),

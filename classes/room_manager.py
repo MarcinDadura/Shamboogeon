@@ -82,7 +82,15 @@ class RoomManager:
                 elif tile == '}':
                     objects.append(
                         Door(x*16, y*16, 'right')
-                    ) 
+                    )
+                elif tile == ']':
+                    objects.append(
+                        Door(x*16, y*16, 'up')
+                    )
+                elif tile == '[':
+                    objects.append(
+                        Door(x*16, y*16, 'down')
+                    )
                 elif tile == 'r':
                     objects.append(
                         Rock(x*16 + 1, y*16 + 1)
