@@ -62,8 +62,10 @@ def game(screen):
 
     item = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
     item2 = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
+    item3 = Item("arrow", "arrow", pygame.image.load('img/strzala_prawo.png'), 0, 0)
     Inventory.get_instance().add_item(item)
     Inventory.get_instance().add_item(item2)
+    Inventory.get_instance().add_item(item3)
 
     game_state.reset()
 
