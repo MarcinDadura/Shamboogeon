@@ -56,7 +56,7 @@ class Monster(GameObject):
 
         self.set_x(self._x + self.speed * (time_delta / 1000) * self.horizontal_direction)
         for obj in pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type == 'rock' or obj.type == 'wall' or obj.type == 'trellis':
+            if obj.type == 'wall' or obj.type == 'trellis':
                 self.horizontal_direction = -self.horizontal_direction
                 self.set_x(old_x)
                 break
@@ -64,7 +64,7 @@ class Monster(GameObject):
 
         self.set_y(self._y + self.speed * (time_delta / 1000) * self.vertical_direction)
         for obj in pygame.sprite.spritecollide(self, objects, dokill=False):
-            if obj.type == 'rock' or obj.type == 'wall' or obj.type == 'trellis':
+            if obj.type == 'wall' or obj.type == 'trellis':
                     self.vertical_direction = -self.vertical_direction
                     self.set_y(old_y)
                     break
