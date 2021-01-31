@@ -36,6 +36,7 @@ def main_menu() -> bool:
     # TODO
     return True
 
+room_manager = RoomManager.get_instance()
 
 def game(screen):
     """Load levels"""
@@ -51,7 +52,6 @@ def game(screen):
 
     game_state.reset()
 
-    room_manager = RoomManager.get_instance()
     room_manager.set_lvl(1)
 
     """Sound"""
@@ -61,10 +61,8 @@ def game(screen):
         game_sound = pygame.mixer.Sound('sounds/LOCHY-theme.ogg')
         game_sound.play(-1)
         game_sound.set_volume(0.15)
-    if (room_manager.get_lvl() == 2):
-        game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
-        game_sound.play(-1)
-        game_sound.set_volume(0.15)
+
+
     board = pygame.Surface((640, 640))
     player = Player.get_instance()
     player.set_x(128)
@@ -88,6 +86,12 @@ def game(screen):
         if game_state.next_lvl:
             game_state.next_lvl = False
             room_manager.set_lvl(room_manager.get_lvl() + 1)
+        if (room_manager.get_lvl() == 2):
+            game_sound.stop()
+            game_sound = pygame.mixer.Sound('sounds/hepi-theme-final.ogg')
+            game_sound.play(-1)
+            game_sound.set_volume(0.15)
+            print('chuj2')
 
 
 def play_room_animation(old_objects, new_objects, board, inventory: Inventory, inventory_board):
@@ -379,7 +383,6 @@ game_menu.add_button('Start', game)
 game_menu.add_button("Quit", pygame_menu.events.EXIT)
 check_size = screen.get_size()
 
-
 while main_menu():
     game_menu.menu.mainloop(screen, disable_loop=main_menu())
     if(check_size != screen.get_size()):
@@ -387,3 +390,7 @@ while main_menu():
         game_menu.add_button('Start', game)
         game_menu.add_button("Quit", pygame_menu.events.EXIT)
         check_size = screen.get_size()
+
+
+
+
