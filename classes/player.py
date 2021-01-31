@@ -12,7 +12,11 @@ class Player(GameObject):
 
     def __init__(self, x: int, y: int):
         Player._instance = self
+        self.last_damage = 0
         self.speed = 100
+        self.hp = 3
+        self.sound = pygame.mixer.Sound('sounds/player_take_damage.ogg')
+        self.sound.set_volume(1)
         # Load sprite only once
         if Player.player_sprite is None:
 
@@ -33,8 +37,17 @@ class Player(GameObject):
             cls(50, 50)
         return cls._instance
 
-    def update(self, time_delta, objects, enemies=None):
+    def take_damage(self) -> bool:
+        print(self.hp)
+        if self.last_damage > 300:
+            self.last_damage = 0
+            self.hp -= 1
+            self.sound.play()
+            return True
+        return False
 
+    def update(self, time_delta, objects, enemies=None):
+        self.last_damage += 1
         if self.direction == 0:
             self.set_sprite(Player.player_sprite_right[0])
         else:
@@ -77,9 +90,9 @@ class Player(GameObject):
                 obj.kill()
 
             elif obj.type == 'ghost':
-                pass
+                self.take_damage()
             elif obj.type == 'demon':
-                obj.sound.play()
+                self.take_damage()
             else:
                 self.set_x(old_x)
                 break
@@ -131,9 +144,9 @@ class Player(GameObject):
                 obj.kill()
 
             elif obj.type == 'ghost':
-                obj.sound.play()
+                self.take_damage()
             elif obj.type == 'demon':
-                obj.sound.play()
+                self.take_damage()
             else:
                 self.set_y(old_y)
                 break
