@@ -57,7 +57,7 @@ class Rainbow_2(GameObject):
 
                 if open_the_trellis:
                     for x in GameObject.all_objects:
-                        if x.type == 'trellis_rainbow2' or x.type =='button_rainbow2' :
+                        if   x.type=='trellis_rainbow2':
                             x.kill()
 
     def update(self, time_delta, objects=None):

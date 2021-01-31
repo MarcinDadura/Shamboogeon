@@ -54,7 +54,7 @@ class Rainbow_1(GameObject):
 
                 if open_the_trellis:
                     for x in GameObject.all_objects:
-                        if x.type == 'trellis_rainbow1' or x.type == 'button_rainbow1':
+                        if  x.type=='trellis_rainbow1' :
                             x.kill()
 
 
