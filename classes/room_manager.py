@@ -215,4 +215,28 @@ class RoomManager:
                     objects.append(
                         Background(x * 16, y * 16, pygame.image.load('img/saw_track_v.png').convert_alpha())
                     )
+                elif tile == ',':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece1.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '<':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece2.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '.':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece3.png').convert_alpha(), "rocket")
+                    )
+                elif tile == '>':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece4.png').convert_alpha(), "rocket")
+                    )
+                elif tile == ';':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece5.png').convert_alpha(), "rocket")
+                    )
+                elif tile == ':':
+                    objects.append(
+                        Wall(x * 16, y * 16, pygame.image.load('img/rocket_piece6.png').convert_alpha(), "rocket")
+                    )
         return objects
