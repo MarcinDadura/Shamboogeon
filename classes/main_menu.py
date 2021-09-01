@@ -27,7 +27,7 @@ class Menu:
         return my_theme
 
     def __init__(self, arg_screen, sound_path):
-        self.menu = pygame_menu.Menu(600, 800, 'Shamboogeon',
+        self.menu = pygame_menu.Menu('Shamboogeon', 800, 600,
                                      theme=self.my_theme())
 
         self.screen= arg_screen
@@ -38,10 +38,11 @@ class Menu:
 
 
     def add_button(self,name ,  action):
-        self.menu.add_button(name, action, self.screen)
+        widget_manager = pygame_menu.menu.WidgetManager(self.menu)
+        widget_manager.button(name, action, self.screen)
 
     def response(self,width,height):
-        self.menu = pygame_menu.Menu(height, width, 'Shamboogeon',
+        self.menu = pygame_menu.Menu('Shamboogeon', width, height,
                                      theme=self.my_theme())
 
         engine = sound.Sound()
